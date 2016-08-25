@@ -28,30 +28,56 @@ Public Class Form1
         printPreviewDiag.ShowDialog()
     End Sub
 
-    Sub printDocument1_PrintPage(ByVal sender As Object,
+    Sub printDoc_PrintPage(ByVal sender As Object,
         ByVal e As PrintPageEventArgs) Handles printDoc.PrintPage
 
-        Dim bx, by As Single
-        Dim x, y As Single
-
-        bx = e.MarginBounds.X
-        by = e.MarginBounds.Y
-
         Dim scale As Single
-        Dim ox, oy As Single
+        Dim scaleX, scaleY As Single
 
-        ox = My.Resources.background.Size.Width
-        oy = My.Resources.background.Size.Height
-        scale = e.MarginBounds.Width / ox
-        x = ox * scale
-        y = oy * scale
+        Dim sWidth, sHeight As Single
 
-        If 1 Then
-            e.Graphics.DrawImage(My.Resources.background,
-                New System.Drawing.RectangleF(bx, by, x, y),
-                New System.Drawing.RectangleF(0, 0, ox, oy), System.Drawing.GraphicsUnit.Pixel)
-            ' e.Graphics.DrawImage(My.Resources.background, New PointF(0, 0))
+        Dim tPageX, tPageY As Single
+        Dim tPageWidth, tPageHeight As Single
+        Dim tWidth, tHeight As Single
+
+        Dim ix, iy As Integer
+
+        sWidth = My.Resources.background.Size.Width
+        sHeight = My.Resources.background.Size.Height
+
+        tPageX = e.MarginBounds.X
+        tPageY = e.MarginBounds.Y
+        tPageWidth = e.MarginBounds.Width
+        tPageHeight = e.MarginBounds.Height
+        If (tPageX > 50) Then
+            tPageWidth = tPageWidth + 2 * (tPageX - 50)
+            tPageX = 50
         End If
+        If (tPageY > 50) Then
+            tPageHeight = tPageHeight + 2 * (tPageY - 50)
+            tPageY = 50
+        End If
+        scaleX = tPageWidth / sWidth
+        scaleY = tPageHeight / sHeight
+
+        If scaleX < scaleY Then
+            scale = scaleX
+        Else
+            scale = scaleY
+        End If
+        scale = scale / 2
+
+        tWidth = sWidth * scale
+        tHeight = sHeight * scale
+
+        For ix = 1 To Int(tPageWidth / tWidth)
+            For iy = 1 To Int(tPageHeight / tHeight)
+                e.Graphics.DrawImage(My.Resources.background,
+                    New System.Drawing.RectangleF(tPageX + (ix - 1) * tWidth, tPageY + (iy - 1) * tHeight, tWidth, tHeight),
+                    New System.Drawing.RectangleF(0, 0, sWidth, sHeight),
+                    System.Drawing.GraphicsUnit.Pixel)
+            Next
+        Next
         e.HasMorePages = False
     End Sub
 End Class
