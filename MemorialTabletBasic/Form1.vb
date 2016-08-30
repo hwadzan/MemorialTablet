@@ -11,7 +11,7 @@ Public Class Form1
     Private currentPrinterSettings As New PrinterSettings
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If False Then
+        If True Then
             printDoc.DefaultPageSettings.Landscape = True
             printPreviewDiag.Document = printDoc
             printPreviewDiag.ShowDialog()
@@ -33,14 +33,16 @@ Public Class Form1
         printPreviewDiag.ShowDialog()
     End Sub
 
-    ' 往生蓮位
+    ' 地基主
     Private Sub drawMemo1(g As Graphics, tX As Single, tY As Single, tWidth As Single, tHeight As Single,
-                          name1 As String, name2 As String) ' name1 先人, name2 陽上
+                          addr As String, name1 As String, name2 As String) ' addr 住址, name1 先人, name2 陽上
         Dim sWidth, sHeight As Single
         Dim scale
         Dim scaleD = 0.188147
         Dim scaleAdj As Single
-        Dim fontC As Font
+        Dim fontR As Font
+        Dim fontC1 As Font, fontC2 As Font
+        Dim fontL1 As Font, fontL2 As Font
 
         sWidth = My.Resources.background.Size.Width
         sHeight = My.Resources.background.Size.Height
@@ -57,7 +59,12 @@ Public Class Form1
 
         Dim l1 As String = "陽上"
 
-        fontC = New Font("新細明體", Int(20 * scaleAdj))
+        fontC1 = New Font("新細明體", Int(20 * scaleAdj))
+        fontC2 = New Font("標楷體", Int(20 * scaleAdj))
+        fontL1 = New Font("標楷體", Int(15 * scaleAdj))
+        fontL2 = New Font("新細明體", Int(15 * scaleAdj))
+
+        fontR = New Font("標楷體", Int(13 * scaleAdj))
 
         ' of stringToPrint that will fit within the bounds of the page.
         ' g.MeasureString(c1, Me.Font, e.MarginBounds.Size,
@@ -69,8 +76,13 @@ Public Class Form1
         ' Draws the string within the bounds of the page.
         ' g.DrawString(c1, Me.Font, Brushes.Black, New RectangleF(tX, tY, tWidth, tHeight), StringFormat.GenericTypographic)
         ' g.DrawString(c1, font1, Brushes.Black, New RectangleF(tX, tY, tWidth, tHeight), StringFormat.GenericTypographic)
-        g.DrawString(c1, fontC, Brushes.Black, New RectangleF(tX + 110 * scaleAdj, tY + 165 * scaleAdj, 30 * scaleAdj, tHeight), drawFormat)
-        g.DrawString(c2, fontC, Brushes.Black, New RectangleF(tX + 110 * scaleAdj, tY + 525 * scaleAdj, 30 * scaleAdj, tHeight), drawFormat)
+        g.DrawString(addr, fontR, Brushes.Black, New RectangleF(tX + 165 * scaleAdj, tY + 200 * scaleAdj, 30 * scaleAdj, tHeight), drawFormat)
+        g.DrawString(c1, fontC1, Brushes.Black, New RectangleF(tX + 110 * scaleAdj, tY + 165 * scaleAdj, 30 * scaleAdj, tHeight), drawFormat)
+        g.DrawString(name1, fontC2, Brushes.Black, New RectangleF(tX + 110 * scaleAdj, tY + 300 * scaleAdj, 30 * scaleAdj, tHeight), drawFormat)
+        g.DrawString(c2, fontC1, Brushes.Black, New RectangleF(tX + 110 * scaleAdj, tY + 525 * scaleAdj, 30 * scaleAdj, tHeight), drawFormat)
+        g.DrawString(l1, fontL1, Brushes.Black, New RectangleF(tX + 20 * scaleAdj, tY + 430 * scaleAdj, 30 * scaleAdj, tHeight), drawFormat)
+        g.DrawString(name2, fontL2, Brushes.Black, New RectangleF(tX + 20 * scaleAdj, tY + 490 * scaleAdj, 30 * scaleAdj, tHeight), drawFormat)
+
     End Sub
 
     Sub printDoc_PrintPage(ByVal sender As Object,
@@ -117,7 +129,8 @@ Public Class Form1
 
         For ix = 1 To Int(tPageWidth / tWidth)
             For iy = 1 To Int(tPageHeight / tHeight)
-                drawMemo1(e.Graphics, tPageX + (ix - 1) * tWidth, tPageY + (iy - 1) * tHeight, tWidth, tHeight, "n1", "n2")
+                drawMemo1(e.Graphics, tPageX + (ix - 1) * tWidth, tPageY + (iy - 1) * tHeight, tWidth, tHeight,
+                          "台北市大安區忠孝東路二段216巷24弄5號五樓", "    地基主", "三寶弟子三")
             Next
         Next
         e.HasMorePages = False
