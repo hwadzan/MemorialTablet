@@ -122,7 +122,14 @@ Public Class Form1
         Else
             scale = scaleY
         End If
-        ' scale = scale / 2
+
+        If Not rioCnt1.Checked Then
+            If rioCnt2.Checked Then
+                scale = scale / 2
+            ElseIf rioCnt3.Checked Then
+                scale = scale / 3
+            End If
+        End If
 
         tWidth = sWidth * scale
         tHeight = sHeight * scale

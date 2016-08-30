@@ -22,19 +22,15 @@ Partial Class Form1
     '請勿使用程式碼編輯器進行修改。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.btnPrint = New System.Windows.Forms.Button()
         Me.btnChoosePrinter = New System.Windows.Forms.Button()
         Me.btnPrintPreview = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.rioCnt1 = New System.Windows.Forms.RadioButton()
+        Me.rioCnt2 = New System.Windows.Forms.RadioButton()
+        Me.rioCnt3 = New System.Windows.Forms.RadioButton()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Location = New System.Drawing.Point(363, 27)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(141, 41)
-        Me.btnPrint.TabIndex = 0
-        Me.btnPrint.Text = "直接印列"
-        Me.btnPrint.UseVisualStyleBackColor = True
         '
         'btnChoosePrinter
         '
@@ -54,20 +50,79 @@ Partial Class Form1
         Me.btnPrintPreview.Text = "印列預覽"
         Me.btnPrintPreview.UseVisualStyleBackColor = True
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(31, 95)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(0, 15)
+        Me.Label1.TabIndex = 3
+        '
+        'rioCnt1
+        '
+        Me.rioCnt1.AutoSize = True
+        Me.rioCnt1.Checked = True
+        Me.rioCnt1.Location = New System.Drawing.Point(10, 24)
+        Me.rioCnt1.Name = "rioCnt1"
+        Me.rioCnt1.Size = New System.Drawing.Size(50, 19)
+        Me.rioCnt1.TabIndex = 4
+        Me.rioCnt1.TabStop = True
+        Me.rioCnt1.Text = "1幅"
+        Me.rioCnt1.UseVisualStyleBackColor = True
+        '
+        'rioCnt2
+        '
+        Me.rioCnt2.AutoSize = True
+        Me.rioCnt2.Location = New System.Drawing.Point(87, 24)
+        Me.rioCnt2.Name = "rioCnt2"
+        Me.rioCnt2.Size = New System.Drawing.Size(50, 19)
+        Me.rioCnt2.TabIndex = 5
+        Me.rioCnt2.Text = "2幅"
+        Me.rioCnt2.UseVisualStyleBackColor = True
+        '
+        'rioCnt3
+        '
+        Me.rioCnt3.AutoSize = True
+        Me.rioCnt3.Location = New System.Drawing.Point(167, 24)
+        Me.rioCnt3.Name = "rioCnt3"
+        Me.rioCnt3.Size = New System.Drawing.Size(50, 19)
+        Me.rioCnt3.TabIndex = 6
+        Me.rioCnt3.Text = "3幅"
+        Me.rioCnt3.UseVisualStyleBackColor = True
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.rioCnt3)
+        Me.GroupBox1.Controls.Add(Me.rioCnt1)
+        Me.GroupBox1.Controls.Add(Me.rioCnt2)
+        Me.GroupBox1.Location = New System.Drawing.Point(24, 95)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(248, 61)
+        Me.GroupBox1.TabIndex = 7
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "短邊幅數"
+        '
         'Form1
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
-        Me.ClientSize = New System.Drawing.Size(540, 97)
+        Me.ClientSize = New System.Drawing.Size(367, 180)
+        Me.Controls.Add(Me.GroupBox1)
+        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btnPrintPreview)
         Me.Controls.Add(Me.btnChoosePrinter)
-        Me.Controls.Add(Me.btnPrint)
         Me.Name = "Form1"
         Me.Text = "Form1"
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents btnPrint As Button
     Friend WithEvents btnChoosePrinter As Button
     Friend WithEvents btnPrintPreview As Button
+    Friend WithEvents Label1 As Label
+    Friend WithEvents rioCnt1 As RadioButton
+    Friend WithEvents rioCnt2 As RadioButton
+    Friend WithEvents rioCnt3 As RadioButton
+    Friend WithEvents GroupBox1 As GroupBox
 End Class
