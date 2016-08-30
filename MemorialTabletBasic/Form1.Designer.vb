@@ -29,12 +29,14 @@ Partial Class Form1
         Me.rioCnt2 = New System.Windows.Forms.RadioButton()
         Me.rioCnt3 = New System.Windows.Forms.RadioButton()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.btnOpenFile = New System.Windows.Forms.Button()
+        Me.openFileDiag = New System.Windows.Forms.OpenFileDialog()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'btnChoosePrinter
         '
-        Me.btnChoosePrinter.Location = New System.Drawing.Point(24, 27)
+        Me.btnChoosePrinter.Location = New System.Drawing.Point(181, 27)
         Me.btnChoosePrinter.Name = "btnChoosePrinter"
         Me.btnChoosePrinter.Size = New System.Drawing.Size(141, 41)
         Me.btnChoosePrinter.TabIndex = 1
@@ -43,7 +45,7 @@ Partial Class Form1
         '
         'btnPrintPreview
         '
-        Me.btnPrintPreview.Location = New System.Drawing.Point(195, 27)
+        Me.btnPrintPreview.Location = New System.Drawing.Point(343, 27)
         Me.btnPrintPreview.Name = "btnPrintPreview"
         Me.btnPrintPreview.Size = New System.Drawing.Size(141, 41)
         Me.btnPrintPreview.TabIndex = 2
@@ -95,17 +97,31 @@ Partial Class Form1
         Me.GroupBox1.Controls.Add(Me.rioCnt3)
         Me.GroupBox1.Controls.Add(Me.rioCnt1)
         Me.GroupBox1.Controls.Add(Me.rioCnt2)
-        Me.GroupBox1.Location = New System.Drawing.Point(24, 95)
+        Me.GroupBox1.Location = New System.Drawing.Point(23, 85)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(248, 61)
+        Me.GroupBox1.Size = New System.Drawing.Size(253, 57)
         Me.GroupBox1.TabIndex = 7
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "短邊幅數"
         '
+        'btnOpenFile
+        '
+        Me.btnOpenFile.Location = New System.Drawing.Point(23, 27)
+        Me.btnOpenFile.Name = "btnOpenFile"
+        Me.btnOpenFile.Size = New System.Drawing.Size(141, 41)
+        Me.btnOpenFile.TabIndex = 8
+        Me.btnOpenFile.Text = "讀取檔案"
+        Me.btnOpenFile.UseVisualStyleBackColor = True
+        '
+        'openFileDiag
+        '
+        Me.openFileDiag.FileName = "OpenFileDialog1"
+        '
         'Form1
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
-        Me.ClientSize = New System.Drawing.Size(367, 180)
+        Me.ClientSize = New System.Drawing.Size(599, 165)
+        Me.Controls.Add(Me.btnOpenFile)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btnPrintPreview)
@@ -125,4 +141,6 @@ Partial Class Form1
     Friend WithEvents rioCnt2 As RadioButton
     Friend WithEvents rioCnt3 As RadioButton
     Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents btnOpenFile As Button
+    Friend WithEvents openFileDiag As OpenFileDialog
 End Class

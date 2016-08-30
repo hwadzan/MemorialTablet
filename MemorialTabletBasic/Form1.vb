@@ -10,8 +10,16 @@ Public Class Form1
     ' default page settings from default printer
     Private currentPrinterSettings As New PrinterSettings
 
+    Private Structure TabletItem
+        Public val1 As String
+        Public val2 As String
+    End Structure
+
+    Private tabletData As New ArrayList
+    Private currentPrintCount As Integer = 0
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If True Then
+        If False Then
             printDoc.DefaultPageSettings.Landscape = True
             printPreviewDiag.Document = printDoc
             printPreviewDiag.ShowDialog()
@@ -82,7 +90,6 @@ Public Class Form1
         g.DrawString(c2, fontC1, Brushes.Black, New RectangleF(tX + 110 * scaleAdj, tY + 525 * scaleAdj, 30 * scaleAdj, tHeight), drawFormat)
         g.DrawString(l1, fontL1, Brushes.Black, New RectangleF(tX + 20 * scaleAdj, tY + 430 * scaleAdj, 30 * scaleAdj, tHeight), drawFormat)
         g.DrawString(name2, fontL2, Brushes.Black, New RectangleF(tX + 20 * scaleAdj, tY + 490 * scaleAdj, 30 * scaleAdj, tHeight), drawFormat)
-
     End Sub
 
     Sub printDoc_PrintPage(ByVal sender As Object,
@@ -136,10 +143,43 @@ Public Class Form1
 
         For ix = 1 To Int(tPageWidth / tWidth)
             For iy = 1 To Int(tPageHeight / tHeight)
-                drawMemo1(e.Graphics, tPageX + (ix - 1) * tWidth, tPageY + (iy - 1) * tHeight, tWidth, tHeight,
-                          "台北市大安區忠孝東路二段216巷24弄5號五樓", "    地基主", "三寶弟子三")
+                If (currentPrintCount < tabletData.Count) Then
+                    Dim item As TabletItem = tabletData.Item(currentPrintCount)
+                    'drawMemo1(e.Graphics, tPageX + (ix - 1) * tWidth, tPageY + (iy - 1) * tHeight, tWidth, tHeight,
+                    '          "台北市大安區忠孝東路二段216巷24弄5號五樓", "    地基主", "三寶弟子三")
+                    drawMemo1(e.Graphics, tPageX + (ix - 1) * tWidth, tPageY + (iy - 1) * tHeight, tWidth, tHeight,
+                              item.val1, "    地基主", item.val2)
+                    currentPrintCount += 1
+                End If
             Next
         Next
-        e.HasMorePages = False
+        If (currentPrintCount >= tabletData.Count) Then
+            e.HasMorePages = False
+            currentPrintCount = 0
+        Else
+            e.HasMorePages = True
+        End If
+    End Sub
+
+    Private Sub btnOpenFile_Click(sender As Object, e As EventArgs) Handles btnOpenFile.Click
+        If openFileDiag.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            Dim sr As New System.IO.StreamReader(openFileDiag.FileName, System.Text.Encoding.Default)
+
+            tabletData.Clear()
+
+            Do While sr.Peek() >= 0
+                Dim line As String = sr.ReadLine()
+                Dim linear() As String = Split(line, vbTab)
+                If (linear.Count <> 2) Then
+                    Continue Do
+                End If
+                Dim item As TabletItem
+                item.val1 = linear(0)
+                item.val2 = linear(1)
+                tabletData.Add(item)
+            Loop
+            ' MessageBox.Show(sr.ReadToEnd)
+            sr.Close()
+        End If
     End Sub
 End Class
