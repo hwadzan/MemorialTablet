@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing.Printing
+Imports MemorialTabletBasic.LayoutUtil
 ' Imports System.Printing
 
 Public Class Form1
@@ -259,7 +260,6 @@ Public Class Form1
             drawRectIfTrue(drawRect, g, rectRight)
             g.DrawString(wR.Item(0), fontC2, Brushes.Black, rectRight, drawFormatCenter)
         Else
-
             rectCenter = New Rectangle(tX + 115 * scaleAdj, tY + 300 * scaleAdj, 20 * scaleAdj, 230 * scaleAdj)
             wR = wrapString(g, name1, fontC2r34, rectCenter, drawFormatCenter)
             If (wR.Count = 1) Then ' this won't happen in general ! just in case.
@@ -320,63 +320,26 @@ Public Class Form1
         drawRectIfTrue(drawRect, g, rect)
     End Sub
 
-    Sub printDoc_PrintPage(ByVal sender As Object,
-        ByVal e As PrintPageEventArgs) Handles printDoc.PrintPage
+    Sub printDoc_PrintPage(ByVal sender As Object, ByVal e As PrintPageEventArgs) Handles printDoc.PrintPage
+        Dim pageSettings = currentPrinterSettings.DefaultPageSettings
 
-        Dim scale As Single
-        Dim scaleX, scaleY As Single
+        Dim pInfo As PlacementInfo = LayoutUtil.computePlacementInfo(
+            New PointF(pageConfig.marginLeft, pageConfig.marginTop),
+            New SizeF(
+            CType(pageSettings.PaperSize.Width - pageConfig.marginLeft - pageConfig.marginRight, Single),
+            CType(pageSettings.PaperSize.Height - pageConfig.marginTop - pageConfig.marginButtom, Single)),
+            pageConfig.horizontalCount, pageConfig.verticalCount,
+            My.Resources.background.Size
+            )
 
-        Dim sWidth, sHeight As Single
-
-        Dim tPageX, tPageY As Single
-        Dim tPageWidth, tPageHeight As Single
-        Dim tWidth, tHeight As Single
-
-        Dim ix, iy As Integer
-
-        sWidth = My.Resources.background.Size.Width
-        sHeight = My.Resources.background.Size.Height
-
-        tPageX = e.MarginBounds.X
-        tPageY = e.MarginBounds.Y
-        tPageWidth = e.MarginBounds.Width
-        tPageHeight = e.MarginBounds.Height
-        If (tPageX > 50) Then
-            tPageWidth = tPageWidth + 2 * (tPageX - 50)
-            tPageX = 50
-        End If
-        If (tPageY > 50) Then
-            tPageHeight = tPageHeight + 2 * (tPageY - 50)
-            tPageY = 50
-        End If
-        scaleX = tPageWidth / sWidth
-        scaleY = tPageHeight / sHeight
-
-        If scaleX < scaleY Then
-            scale = scaleX
-        Else
-            scale = scaleY
-        End If
-
-        If Not rioCnt1.Checked Then
-            If rioCnt2.Checked Then
-                scale = scale / 2
-            ElseIf rioCnt3.Checked Then
-                scale = scale / 3
-            End If
-        End If
-
-        tWidth = sWidth * scale
-        tHeight = sHeight * scale
-
-        For ix = 1 To Int(tPageWidth / tWidth)
-            For iy = 1 To Int(tPageHeight / tHeight)
+        For ix = 1 To pageConfig.horizontalCount
+            For iy = 1 To pageConfig.verticalCount
                 If (currentPrintCount < tabletData.Count) Then
                     Dim item As TabletItem = tabletData.Item(currentPrintCount)
+                    Dim pt As PointF = LayoutUtil.rectOfIdx(ix, iy, pInfo)
                     'drawMemo1(e.Graphics, tPageX + (ix - 1) * tWidth, tPageY + (iy - 1) * tHeight, tWidth, tHeight,
                     '          "台北市大安區忠孝東路二段216巷24弄5號五樓", "    地基主", "三寶弟子三")
-
-                    drawMemo1(e.Graphics, tPageX + (ix - 1) * tWidth, tPageY + (iy - 1) * tHeight, tWidth, tHeight,
+                    drawMemo1(e.Graphics, pt.X, pt.Y, pInfo.tWidth, pInfo.tHeight,
                     item.val1, "地基主在此this is a test地基主在此地基主在此地基主在此地基主在此地基主在此地基主在此地基主在此", item.val2)
                     currentPrintCount += 1
                 End If
@@ -445,5 +408,44 @@ Public Class Form1
             pageConfig.marginButtom = valAfterUpdate(pageConfig.marginButtom, txBoundButtom.Text, miniMarginInfo.marginButtom, 200)
         End If
         updatePageConfig()
+    End Sub
+
+    Private Sub txCount_LostFocus(sender As Object, e As EventArgs) Handles _
+            txHorizontalCount.LostFocus, txVerticalCount.LostFocus
+        If sender.Equals(txHorizontalCount) Then
+            pageConfig.horizontalCount = valAfterUpdate(
+                pageConfig.horizontalCount,
+                txHorizontalCount.Text,
+                1, 50)
+        ElseIf sender.Equals(txVerticalCount) Then
+            pageConfig.verticalCount = valAfterUpdate(
+                pageConfig.verticalCount,
+                txVerticalCount.Text,
+                1, 50)
+        End If
+    End Sub
+
+    Private Sub btnProposeHorizontal_Click(sender As Object, e As EventArgs) Handles btnProposeHorizontal.Click
+        Dim pageSettings = currentPrinterSettings.DefaultPageSettings
+        pageConfig.horizontalCount = LayoutUtil.proposedHorizontalCount(
+            pageConfig.verticalCount,
+            New PointF(pageConfig.marginLeft, pageConfig.marginTop),
+            New SizeF(
+                CType(pageSettings.PaperSize.Width - pageConfig.marginLeft - pageConfig.marginRight, Single),
+                CType(pageSettings.PaperSize.Height - pageConfig.marginTop - pageConfig.marginButtom, Single)),
+            My.Resources.background.Size)
+        txHorizontalCount.Text = pageConfig.horizontalCount.ToString
+    End Sub
+
+    Private Sub btnProposeVertical_Click(sender As Object, e As EventArgs) Handles btnProposeVertical.Click
+        Dim pageSettings = currentPrinterSettings.DefaultPageSettings
+        pageConfig.verticalCount = LayoutUtil.proposedVerticalCount(
+            pageConfig.horizontalCount,
+            New PointF(pageConfig.marginLeft, pageConfig.marginTop),
+            New SizeF(
+                CType(pageSettings.PaperSize.Width - pageConfig.marginLeft - pageConfig.marginRight, Single),
+                CType(pageSettings.PaperSize.Height - pageConfig.marginTop - pageConfig.marginButtom, Single)),
+            My.Resources.background.Size)
+        txVerticalCount.Text = pageConfig.verticalCount.ToString
     End Sub
 End Class
