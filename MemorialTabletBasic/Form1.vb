@@ -7,7 +7,27 @@ Public Class Form1
 
     Private WithEvents printDoc As New PrintDocument()
 
+    Public Structure PageInfo ' in unit 0.01 inch
+        Dim marginLeft As Integer
+        Dim marginTop As Integer
+        Dim marginButtom As Integer
+        Dim marginRight As Integer
+        Dim pageWidth As Integer
+        Dim pageHeight As Integer
+    End Structure
+
+    Public Structure PageConfigInfo ' margin in unit 0.01 inch
+        Dim marginLeft As Integer
+        Dim marginTop As Integer
+        Dim marginButtom As Integer
+        Dim marginRight As Integer
+        Dim horizontalCount As Integer
+        Dim verticalCount As Integer
+    End Structure
+
     Private currentPrinterSettings As New PrinterSettings
+    Private miniMarginInfo As New PageInfo
+    Private pageConfig As New PageConfigInfo
 
     Private Structure TabletItem
         Public filename As String
@@ -20,7 +40,7 @@ Public Class Form1
     Private currentPrintCount As Integer = 0
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If True Then
+        If False Then
             Dim ti As TabletItem = New TabletItem
             ti.val1 = "台北市大安區忠孝東路二段263巷32弄9號二十二樓"
             ti.val2 = "xxxx"
@@ -43,6 +63,54 @@ Public Class Form1
         'Int numberOfJobs = 0;
         'If (printQueue!= null) Then
         '    numberOfJobs = printQueue.NumberOfJobs;
+
+        pageConfig.marginTop = 50
+        pageConfig.marginRight = 50
+        pageConfig.marginLeft = 50
+        pageConfig.marginButtom = 50
+        pageConfig.verticalCount = 1
+        pageConfig.horizontalCount = 1
+
+        updateUI()
+    End Sub
+
+    Public Function pageInfo2Str(pi As PageInfo) As String
+        pageInfo2Str =
+            "左:" + pi.marginLeft.ToString +
+            ", 右:" + pi.marginRight.ToString +
+            ", 上:" + pi.marginTop.ToString +
+            ", 下:" + pi.marginButtom.ToString +
+            ", 寬:" + pi.pageWidth.ToString +
+            ", 高:" + pi.pageHeight.ToString
+    End Function
+
+    Private Sub updatePapeInfo()
+        Dim pageSettings = currentPrinterSettings.DefaultPageSettings
+
+        miniMarginInfo.marginLeft = pageSettings.PrintableArea.Left
+        miniMarginInfo.marginRight = pageSettings.PaperSize.Width - pageSettings.PrintableArea.Right
+        miniMarginInfo.marginTop = pageSettings.PrintableArea.Top
+        miniMarginInfo.marginButtom = pageSettings.PaperSize.Height - pageSettings.PrintableArea.Bottom
+
+        miniMarginInfo.pageWidth = pageSettings.PrintableArea.Right - pageSettings.PrintableArea.Left
+        miniMarginInfo.pageHeight = pageSettings.PrintableArea.Bottom - pageSettings.PrintableArea.Top
+
+        lbMinimalBoundry.Text = pageInfo2Str(miniMarginInfo)
+    End Sub
+
+    Private Sub updatePageConfig()
+        txBoundLeft.Text = pageConfig.marginLeft.ToString
+        txBoundRight.Text = pageConfig.marginRight.ToString
+        txBoundTop.Text = pageConfig.marginTop.ToString
+        txBoundButtom.Text = pageConfig.marginButtom.ToString
+
+        txHorizontalCount.Text = pageConfig.horizontalCount.ToString
+        txVerticalCount.Text = pageConfig.verticalCount.ToString
+    End Sub
+
+    Private Sub updateUI()
+        updatePapeInfo()
+        updatePageConfig()
     End Sub
 
     Private Sub btnChoosePrinter_Click(sender As Object, e As EventArgs) Handles btnChoosePrinter.Click
@@ -51,6 +119,7 @@ Public Class Form1
         ret = printDiag.ShowDialog()
         If ret = DialogResult.OK Then
             currentPrinterSettings = printDiag.PrinterSettings
+            updateUI()
         End If
     End Sub
 
@@ -121,8 +190,6 @@ Public Class Form1
     Private Sub drawRectIfTrue(b As Boolean, g As Graphics, rect As Rectangle)
         If b Then g.DrawRectangle(Pens.Black, rect)
     End Sub
-
-
 
     ' 地基主
     Private Sub drawMemo1(g As Graphics, tX As Single, tY As Single, tWidth As Single, tHeight As Single,
@@ -345,5 +412,38 @@ Public Class Form1
             ' MessageBox.Show(sr.ReadToEnd)
             sr.Close()
         End If
+    End Sub
+
+    Private Function valAfterUpdate(o As Integer, t As String, min As Integer, max As Integer) As Integer
+        Dim val As Integer
+        Dim parseSucc As Boolean
+        Try
+            parseSucc = Integer.TryParse(t, val)
+        Catch ex As Exception
+        End Try
+
+        If Not parseSucc Then
+            Return o
+        End If
+        If val < min Then Return min
+        If val > max Then Return max
+        Return val
+    End Function
+
+    Private Sub txBoundAll_LostFocus(sender As Object, e As EventArgs) Handles _
+            txBoundLeft.LostFocus,
+            txBoundRight.LostFocus,
+            txBoundTop.LostFocus,
+            txBoundButtom.LostFocus
+        If sender.Equals(txBoundLeft) Then
+            pageConfig.marginLeft = valAfterUpdate(pageConfig.marginLeft, txBoundLeft.Text, miniMarginInfo.marginLeft, 200)
+        ElseIf sender.Equals(txBoundRight) Then
+            pageConfig.marginRight = valAfterUpdate(pageConfig.marginRight, txBoundRight.Text, miniMarginInfo.marginRight, 200)
+        ElseIf sender.Equals(txBoundTop) Then
+            pageConfig.marginTop = valAfterUpdate(pageConfig.marginTop, txBoundTop.Text, miniMarginInfo.marginTop, 200)
+        ElseIf sender.Equals(txBoundButtom) Then
+            pageConfig.marginButtom = valAfterUpdate(pageConfig.marginButtom, txBoundButtom.Text, miniMarginInfo.marginButtom, 200)
+        End If
+        updatePageConfig()
     End Sub
 End Class
