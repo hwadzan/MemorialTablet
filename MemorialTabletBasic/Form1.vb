@@ -41,16 +41,6 @@ Public Class Form1
     Private currentPrintCount As Integer = 0
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If False Then
-            Dim ti As TabletItem = New TabletItem
-            ti.val1 = "台北市大安區忠孝東路二段263巷32弄9號二十二樓"
-            ti.val2 = "xxxx"
-            tabletData.Add(ti)
-            printDoc.DefaultPageSettings.Landscape = True
-            printPreviewDiag.Document = printDoc
-            printPreviewDiag.ShowDialog()
-        End If
-
         'Dim server As LocalPrintServer = New LocalPrintServer();
         'PrintQueueCollection queueCollection = server.GetPrintQueues();
         'PrintQueue printQueue = null;
@@ -73,6 +63,17 @@ Public Class Form1
         pageConfig.horizontalCount = 1
 
         updateUI()
+
+        If True Then
+            Dim ti As TabletItem = New TabletItem
+            ti.val1 = "台北市大安區忠孝東路二段263巷32弄9號二十二樓"
+            ti.val2 = "xxxx"
+            tabletData.Add(ti)
+            printDoc.DefaultPageSettings.Landscape = True
+            printPreviewDiag.Document = printDoc
+            printPreviewDiag.ShowDialog()
+        End If
+
     End Sub
 
     Public Function pageInfo2Str(pi As PageInfo) As String
@@ -130,7 +131,8 @@ Public Class Form1
         printPreviewDiag.ShowDialog()
     End Sub
 
-    Private Function wrapString(g As Graphics, inStr As String, f As Font, rect As Rectangle, strFmt As StringFormat) As List(Of String)
+    ' old version of manually written wrapString1. works for english and chinese. other language might need more test !
+    Private Function wrapString1(g As Graphics, inStr As String, f As Font, rect As Rectangle, strFmt As StringFormat) As List(Of String)
         inStr = inStr.Trim()
         Dim retStrAr As New List(Of String)()
         If (inStr.Length < 6) Then
@@ -184,6 +186,53 @@ Public Class Form1
         Next
         strToAdd = inStr.Substring(prevStrStart, i - prevStrStart).Trim
         retStrAr.Add(strToAdd)
+
+        Return retStrAr
+    End Function
+
+    ' use SetMeasurableCharacterRanges, which might apply better for more language
+    Private Function wrapString(g As Graphics, inStr As String, f As Font, rect As Rectangle, strFmt As StringFormat) As List(Of String)
+        inStr = inStr.Trim()
+        Dim retStrAr As New List(Of String)()
+        If (inStr.Length < 6) Then
+            retStrAr.Add(inStr.Trim)
+            Return retStrAr
+        End If
+
+        While inStr.Length > 0
+            Dim rngCnt As Integer = Math.Min(32, inStr.Length)
+            Dim measuresStrFmt As New StringFormat(strFmt)
+            Dim cRanges(rngCnt - 1) As CharacterRange
+            Dim i As Integer
+            For i = 0 To rngCnt - 1
+                cRanges(i) = New CharacterRange(i, 1)
+            Next
+            measuresStrFmt.SetMeasurableCharacterRanges(cRanges)
+            Dim largerRect As New Rectangle(rect.Location, New Size(rect.Size.Width * 5, rect.Size.Height))
+            Dim charRects As Region() = g.MeasureCharacterRanges(inStr, f, largerRect, measuresStrFmt)
+            Dim sprlitPoint As Integer = 0
+            Dim prevRect As Region = New Region(New Rectangle(0, 0, 0, 0))
+            Dim curRect As Region = New Region(New Rectangle(0, 0, 0, 0))
+            For i = 0 To rngCnt - 1
+                curRect = charRects(i)
+                If curRect.GetBounds(g).Location.X <> 0 Then
+                    If prevRect.GetBounds(g).Location.X <> 0 Then
+                        If prevRect.GetBounds(g).Location.X < curRect.GetBounds(g).Location.X Then
+                            Dim strToAdd As String = inStr.Substring(0, i)
+                            retStrAr.Add(strToAdd.Trim)
+                            inStr = inStr.Substring(i).Trim
+                            Exit For
+                        End If
+                    Else
+                        prevRect = curRect
+                    End If
+                End If
+            Next
+            If (i = rngCnt) Then
+                retStrAr.Add(inStr)
+                inStr = ""
+            End If
+        End While
 
         Return retStrAr
     End Function
