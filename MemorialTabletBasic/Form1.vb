@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing.Printing
 Imports MemorialTabletBasic.LayoutUtil
+Imports MemorialTabletBasic.TabletInfo
 ' Imports System.Printing
 
 Public Class Form1
@@ -30,14 +31,8 @@ Public Class Form1
     Private miniMarginInfo As New PageInfo
     Private pageConfig As New PageConfigInfo
 
-    Private Structure TabletItem
-        Public filename As String
-        Public val1 As String
-        Public val2 As String
-        Public val3 As String
-    End Structure
-
     Private tabletData As New ArrayList
+    Private tabletDataWarn As New ArrayList
     Private currentPrintCount As Integer = 0
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -65,7 +60,7 @@ Public Class Form1
         updateUI()
 
         If True Then
-            Dim ti As TabletItem = New TabletItem
+            Dim ti As TabletRawItem = New TabletRawItem
             ti.val1 = "台北市大安區忠孝東路二段263巷32弄9號二十二樓"
             ti.val2 = "xxxx"
             tabletData.Add(ti)
@@ -384,7 +379,7 @@ Public Class Form1
         For ix = 1 To pageConfig.horizontalCount
             For iy = 1 To pageConfig.verticalCount
                 If (currentPrintCount < tabletData.Count) Then
-                    Dim item As TabletItem = tabletData.Item(currentPrintCount)
+                    Dim item As TabletRawItem = tabletData.Item(currentPrintCount)
                     Dim pt As PointF = LayoutUtil.rectOfIdx(ix, iy, pInfo)
                     'drawMemo1(e.Graphics, tPageX + (ix - 1) * tWidth, tPageY + (iy - 1) * tHeight, tWidth, tHeight,
                     '          "台北市大安區忠孝東路二段216巷24弄5號五樓", "    地基主", "三寶弟子三")
@@ -403,26 +398,44 @@ Public Class Form1
     End Sub
 
     Private Sub btnOpenFile_Click(sender As Object, e As EventArgs) Handles btnOpenFile.Click
-        If openFileDiag.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            Dim sr As New System.IO.StreamReader(openFileDiag.FileName, System.Text.Encoding.Default)
+        Dim typeStr As String = "C"
+        If rioD.Checked Then
+            typeStr = "D"
+        ElseIf rioL.Checked Then
+            typeStr = "L"
+        ElseIf rioW.Checked Then
+            typeStr = "W"
+        ElseIf rioY.Checked Then
+            typeStr = "Y"
+        End If
+        Dim rawInfo As TabletRawInfo = TabletInfo.getExpectRawInfo(typeStr)
 
+        If chooseFolderDiag.ShowDialog() = DialogResult.OK Then
+            directoryStr.Text = chooseFolderDiag.SelectedPath
+            Dim di As New IO.DirectoryInfo(chooseFolderDiag.SelectedPath)
+            Dim files = di.GetFiles(typeStr + "*.txt")
+            tabletDataWarn.Clear()
             tabletData.Clear()
+            For Each file In files
+                Dim sr As New System.IO.StreamReader(file.FullName, System.Text.Encoding.Default)
+                Do While sr.Peek() >= 0
+                    Dim line As String = sr.ReadLine().Trim
+                    If line.Length = 0 Then Continue Do
+                    Dim linear() As String = Split(line, vbTab)
 
-            Do While sr.Peek() >= 0
-                Dim line As String = sr.ReadLine()
-                Dim linear() As String = Split(line, vbTab)
-                If (linear.Count <> 2) Then
-                    Continue Do
-                End If
-                Dim item As TabletItem = New TabletItem
-                item.filename = openFileDiag.FileName ' todo: only need file name without dir and extension
-                item.val1 = linear(0)
-                If linear.Count >= 2 Then item.val2 = linear(1)
-                If linear.Count >= 3 Then item.val2 = linear(2)
-                tabletData.Add(item)
-            Loop
-            ' MessageBox.Show(sr.ReadToEnd)
-            sr.Close()
+                    Dim item As TabletRawItem = New TabletRawItem
+                    item.filename = file.Name
+                    item.val1 = linear(0)
+                    If linear.Count >= 2 Then item.val2 = linear(1)
+                    If (linear.Count <> rawInfo.numOfRaw) Then
+                        tabletDataWarn.Add(item)
+                    End If
+                    tabletData.Add(item)
+                Loop
+                ' MessageBox.Show(sr.ReadToEnd)
+                sr.Close()
+            Next
+            lbRawNum.Text = tabletData.Count
         End If
     End Sub
 
