@@ -42,6 +42,7 @@ Public Class Form1
 
         updateUI()
         lbRawNum.Text = "0"
+        directoryStr.Text = ""
 
         If False Then
             Dim ti As TabletRawItem = New TabletRawItem
@@ -431,6 +432,7 @@ Public Class Form1
             btnImport.Click, btnReImport.Click
         If sender.Equals(btnImport) Then
             If chooseFolderDiag.ShowDialog() <> DialogResult.OK Then Exit Sub
+            directoryStr.Text = chooseFolderDiag.SelectedPath
         Else
             If chooseFolderDiag.SelectedPath.Length = 0 Then
                 MsgBox("要先選擇匯入資料 !")

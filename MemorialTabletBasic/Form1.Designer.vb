@@ -46,7 +46,6 @@ Partial Class Form1
         Me.Label10 = New System.Windows.Forms.Label()
         Me.btnProposeHorizontal = New System.Windows.Forms.Button()
         Me.btnProposeVertical = New System.Windows.Forms.Button()
-        Me.directoryStr = New System.Windows.Forms.TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.chooseFolderDiag = New System.Windows.Forms.FolderBrowserDialog()
         Me.Label12 = New System.Windows.Forms.Label()
@@ -60,20 +59,21 @@ Partial Class Form1
         Me.dgvWarning = New System.Windows.Forms.TabControl()
         Me.tabAll = New System.Windows.Forms.TabPage()
         Me.dgvAll = New System.Windows.Forms.DataGridView()
-        Me.tabletAllSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.tabWarning = New System.Windows.Forms.TabPage()
-        Me.dgvWarn = New System.Windows.Forms.DataGridView()
-        Me.tabletWarnSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.mainSplitter = New System.Windows.Forms.SplitContainer()
-        Me.btnReImport = New System.Windows.Forms.Button()
-        Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TypeDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.FilenameDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Val1DataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Val2DataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.tabletAllSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.tabWarning = New System.Windows.Forms.TabPage()
+        Me.dgvWarn = New System.Windows.Forms.DataGridView()
+        Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.tabletWarnSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.mainSplitter = New System.Windows.Forms.SplitContainer()
+        Me.btnReImport = New System.Windows.Forms.Button()
+        Me.directoryStr = New System.Windows.Forms.Label()
         Me.dgvWarning.SuspendLayout()
         Me.tabAll.SuspendLayout()
         CType(Me.dgvAll, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -282,15 +282,6 @@ Partial Class Form1
         Me.btnProposeVertical.Text = "自動"
         Me.btnProposeVertical.UseVisualStyleBackColor = True
         '
-        'directoryStr
-        '
-        Me.directoryStr.Enabled = False
-        Me.directoryStr.Location = New System.Drawing.Point(50, 51)
-        Me.directoryStr.Name = "directoryStr"
-        Me.directoryStr.ReadOnly = True
-        Me.directoryStr.Size = New System.Drawing.Size(319, 25)
-        Me.directoryStr.TabIndex = 27
-        '
         'Label11
         '
         Me.Label11.AutoSize = True
@@ -412,6 +403,33 @@ Partial Class Form1
         Me.dgvAll.Size = New System.Drawing.Size(826, 353)
         Me.dgvAll.TabIndex = 0
         '
+        'TypeDataGridViewTextBoxColumn
+        '
+        Me.TypeDataGridViewTextBoxColumn.DataPropertyName = "Type"
+        Me.TypeDataGridViewTextBoxColumn.HeaderText = "類型"
+        Me.TypeDataGridViewTextBoxColumn.Name = "TypeDataGridViewTextBoxColumn"
+        Me.TypeDataGridViewTextBoxColumn.Width = 70
+        '
+        'FilenameDataGridViewTextBoxColumn
+        '
+        Me.FilenameDataGridViewTextBoxColumn.DataPropertyName = "Filename"
+        Me.FilenameDataGridViewTextBoxColumn.HeaderText = "檔案"
+        Me.FilenameDataGridViewTextBoxColumn.Name = "FilenameDataGridViewTextBoxColumn"
+        '
+        'Val1DataGridViewTextBoxColumn
+        '
+        Me.Val1DataGridViewTextBoxColumn.DataPropertyName = "Val1"
+        Me.Val1DataGridViewTextBoxColumn.HeaderText = "欄位一"
+        Me.Val1DataGridViewTextBoxColumn.Name = "Val1DataGridViewTextBoxColumn"
+        Me.Val1DataGridViewTextBoxColumn.Width = 230
+        '
+        'Val2DataGridViewTextBoxColumn
+        '
+        Me.Val2DataGridViewTextBoxColumn.DataPropertyName = "Val2"
+        Me.Val2DataGridViewTextBoxColumn.HeaderText = "欄位二"
+        Me.Val2DataGridViewTextBoxColumn.Name = "Val2DataGridViewTextBoxColumn"
+        Me.Val2DataGridViewTextBoxColumn.Width = 230
+        '
         'tabletAllSource
         '
         Me.tabletAllSource.DataSource = GetType(MemorialTabletBasic.TabletInfo.TabletRawItem)
@@ -441,6 +459,33 @@ Partial Class Form1
         Me.dgvWarn.Size = New System.Drawing.Size(826, 353)
         Me.dgvWarn.TabIndex = 1
         '
+        'DataGridViewTextBoxColumn1
+        '
+        Me.DataGridViewTextBoxColumn1.DataPropertyName = "Type"
+        Me.DataGridViewTextBoxColumn1.HeaderText = "類型"
+        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
+        Me.DataGridViewTextBoxColumn1.Width = 70
+        '
+        'DataGridViewTextBoxColumn2
+        '
+        Me.DataGridViewTextBoxColumn2.DataPropertyName = "Filename"
+        Me.DataGridViewTextBoxColumn2.HeaderText = "檔案"
+        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
+        '
+        'DataGridViewTextBoxColumn3
+        '
+        Me.DataGridViewTextBoxColumn3.DataPropertyName = "Val1"
+        Me.DataGridViewTextBoxColumn3.HeaderText = "欄位一"
+        Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
+        Me.DataGridViewTextBoxColumn3.Width = 230
+        '
+        'DataGridViewTextBoxColumn4
+        '
+        Me.DataGridViewTextBoxColumn4.DataPropertyName = "Val2"
+        Me.DataGridViewTextBoxColumn4.HeaderText = "欄位二"
+        Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
+        Me.DataGridViewTextBoxColumn4.Width = 230
+        '
         'tabletWarnSource
         '
         Me.tabletWarnSource.DataSource = GetType(MemorialTabletBasic.TabletInfo.TabletRawItem)
@@ -457,6 +502,7 @@ Partial Class Form1
         '
         'mainSplitter.Panel1
         '
+        Me.mainSplitter.Panel1.Controls.Add(Me.directoryStr)
         Me.mainSplitter.Panel1.Controls.Add(Me.btnImport)
         Me.mainSplitter.Panel1.Controls.Add(Me.btnReImport)
         Me.mainSplitter.Panel1.Controls.Add(Me.btnChoosePrinter)
@@ -476,7 +522,6 @@ Partial Class Form1
         Me.mainSplitter.Panel1.Controls.Add(Me.txBoundLeft)
         Me.mainSplitter.Panel1.Controls.Add(Me.Label11)
         Me.mainSplitter.Panel1.Controls.Add(Me.Label5)
-        Me.mainSplitter.Panel1.Controls.Add(Me.directoryStr)
         Me.mainSplitter.Panel1.Controls.Add(Me.txBoundRight)
         Me.mainSplitter.Panel1.Controls.Add(Me.btnProposeVertical)
         Me.mainSplitter.Panel1.Controls.Add(Me.Label7)
@@ -506,59 +551,14 @@ Partial Class Form1
         Me.btnReImport.Text = "重新匯入"
         Me.btnReImport.UseVisualStyleBackColor = True
         '
-        'DataGridViewTextBoxColumn1
+        'directoryStr
         '
-        Me.DataGridViewTextBoxColumn1.DataPropertyName = "Type"
-        Me.DataGridViewTextBoxColumn1.HeaderText = "類型"
-        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
-        Me.DataGridViewTextBoxColumn1.Width = 70
-        '
-        'DataGridViewTextBoxColumn2
-        '
-        Me.DataGridViewTextBoxColumn2.DataPropertyName = "Filename"
-        Me.DataGridViewTextBoxColumn2.HeaderText = "檔案"
-        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
-        '
-        'DataGridViewTextBoxColumn3
-        '
-        Me.DataGridViewTextBoxColumn3.DataPropertyName = "Val1"
-        Me.DataGridViewTextBoxColumn3.HeaderText = "欄位一"
-        Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
-        Me.DataGridViewTextBoxColumn3.Width = 230
-        '
-        'DataGridViewTextBoxColumn4
-        '
-        Me.DataGridViewTextBoxColumn4.DataPropertyName = "Val2"
-        Me.DataGridViewTextBoxColumn4.HeaderText = "欄位二"
-        Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
-        Me.DataGridViewTextBoxColumn4.Width = 230
-        '
-        'TypeDataGridViewTextBoxColumn
-        '
-        Me.TypeDataGridViewTextBoxColumn.DataPropertyName = "Type"
-        Me.TypeDataGridViewTextBoxColumn.HeaderText = "類型"
-        Me.TypeDataGridViewTextBoxColumn.Name = "TypeDataGridViewTextBoxColumn"
-        Me.TypeDataGridViewTextBoxColumn.Width = 70
-        '
-        'FilenameDataGridViewTextBoxColumn
-        '
-        Me.FilenameDataGridViewTextBoxColumn.DataPropertyName = "Filename"
-        Me.FilenameDataGridViewTextBoxColumn.HeaderText = "檔案"
-        Me.FilenameDataGridViewTextBoxColumn.Name = "FilenameDataGridViewTextBoxColumn"
-        '
-        'Val1DataGridViewTextBoxColumn
-        '
-        Me.Val1DataGridViewTextBoxColumn.DataPropertyName = "Val1"
-        Me.Val1DataGridViewTextBoxColumn.HeaderText = "欄位一"
-        Me.Val1DataGridViewTextBoxColumn.Name = "Val1DataGridViewTextBoxColumn"
-        Me.Val1DataGridViewTextBoxColumn.Width = 230
-        '
-        'Val2DataGridViewTextBoxColumn
-        '
-        Me.Val2DataGridViewTextBoxColumn.DataPropertyName = "Val2"
-        Me.Val2DataGridViewTextBoxColumn.HeaderText = "欄位二"
-        Me.Val2DataGridViewTextBoxColumn.Name = "Val2DataGridViewTextBoxColumn"
-        Me.Val2DataGridViewTextBoxColumn.Width = 230
+        Me.directoryStr.AutoSize = True
+        Me.directoryStr.Location = New System.Drawing.Point(51, 54)
+        Me.directoryStr.Name = "directoryStr"
+        Me.directoryStr.Size = New System.Drawing.Size(263, 15)
+        Me.directoryStr.TabIndex = 37
+        Me.directoryStr.Text = "directorStr:directorStr:directorStr:directorStr"
         '
         'Form1
         '
@@ -607,7 +607,6 @@ Partial Class Form1
     Friend WithEvents Label10 As Label
     Friend WithEvents btnProposeHorizontal As Button
     Friend WithEvents btnProposeVertical As Button
-    Friend WithEvents directoryStr As TextBox
     Friend WithEvents Label11 As Label
     Friend WithEvents chooseFolderDiag As FolderBrowserDialog
     Friend WithEvents Label12 As Label
@@ -635,4 +634,5 @@ Partial Class Form1
     Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
+    Friend WithEvents directoryStr As Label
 End Class
