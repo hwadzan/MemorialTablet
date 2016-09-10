@@ -224,7 +224,7 @@ Public Class Form1
     ' 地基主
     Private Sub drawMemo(g As Graphics, tX As Single, tY As Single, tWidth As Single, tHeight As Single,
                          ti As TabletItem)
-        Dim drawRect As Boolean = True
+        Dim drawRect As Boolean = False
 
         Dim sWidth, sHeight As Single
         Dim scale
@@ -247,6 +247,7 @@ Public Class Form1
         Dim fontL1 = New Font("標楷體", Int(15 * scaleAdj))
         Dim fontL2 = New Font("新細明體", Int(15 * scaleAdj))
         Dim fontR = New Font("標楷體", Int(13 * scaleAdj))
+        Dim fontR2 = New Font("標楷體", Int(6 * scaleAdj))
 
         Dim drawFormat As New System.Drawing.StringFormat
         drawFormat.FormatFlags = StringFormatFlags.DirectionVertical
@@ -343,6 +344,12 @@ Public Class Form1
         g.DrawString(ti.left2, fontL2, Brushes.Black, rect, drawFormatFar)
         drawRectIfTrue(drawRect, g, rect)
         ' 左邊 下方 小標 TODO
+        rect = New Rectangle(tX + 1 * scaleAdj, tY + 684 * scaleAdj, 9 * scaleAdj, 40 * scaleAdj)
+        g.DrawString(ti.left3, fontR2, Brushes.Black, rect, drawFormatFar)
+        drawRectIfTrue(drawRect, g, rect)
+
+        rect = New Rectangle(tX, tY, tWidth, tHeight)
+        drawRectIfTrue(drawRect, g, rect)
     End Sub
 
     Sub printDoc_PrintPage(ByVal sender As Object, ByVal e As PrintPageEventArgs) Handles printDoc.PrintPage

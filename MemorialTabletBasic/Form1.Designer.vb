@@ -60,20 +60,20 @@ Partial Class Form1
         Me.dgvWarning = New System.Windows.Forms.TabControl()
         Me.tabAll = New System.Windows.Forms.TabPage()
         Me.dgvAll = New System.Windows.Forms.DataGridView()
-        Me.TypeDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FilenameDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Val1DataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Val2DataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.tabletAllSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.tabWarning = New System.Windows.Forms.TabPage()
         Me.dgvWarn = New System.Windows.Forms.DataGridView()
+        Me.tabletWarnSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.mainSplitter = New System.Windows.Forms.SplitContainer()
+        Me.btnReImport = New System.Windows.Forms.Button()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.tabletWarnSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.mainSplitter = New System.Windows.Forms.SplitContainer()
-        Me.btnReImport = New System.Windows.Forms.Button()
+        Me.TypeDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FilenameDataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Val1DataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Val2DataGridViewTextBoxColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.dgvWarning.SuspendLayout()
         Me.tabAll.SuspendLayout()
         CType(Me.dgvAll, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -412,32 +412,6 @@ Partial Class Form1
         Me.dgvAll.Size = New System.Drawing.Size(826, 353)
         Me.dgvAll.TabIndex = 0
         '
-        'TypeDataGridViewTextBoxColumn
-        '
-        Me.TypeDataGridViewTextBoxColumn.DataPropertyName = "Type"
-        Me.TypeDataGridViewTextBoxColumn.HeaderText = "類型"
-        Me.TypeDataGridViewTextBoxColumn.Name = "TypeDataGridViewTextBoxColumn"
-        '
-        'FilenameDataGridViewTextBoxColumn
-        '
-        Me.FilenameDataGridViewTextBoxColumn.DataPropertyName = "Filename"
-        Me.FilenameDataGridViewTextBoxColumn.HeaderText = "檔案"
-        Me.FilenameDataGridViewTextBoxColumn.Name = "FilenameDataGridViewTextBoxColumn"
-        '
-        'Val1DataGridViewTextBoxColumn
-        '
-        Me.Val1DataGridViewTextBoxColumn.DataPropertyName = "Val1"
-        Me.Val1DataGridViewTextBoxColumn.HeaderText = "欄位一"
-        Me.Val1DataGridViewTextBoxColumn.Name = "Val1DataGridViewTextBoxColumn"
-        Me.Val1DataGridViewTextBoxColumn.Width = 150
-        '
-        'Val2DataGridViewTextBoxColumn
-        '
-        Me.Val2DataGridViewTextBoxColumn.DataPropertyName = "Val2"
-        Me.Val2DataGridViewTextBoxColumn.HeaderText = "欄位二"
-        Me.Val2DataGridViewTextBoxColumn.Name = "Val2DataGridViewTextBoxColumn"
-        Me.Val2DataGridViewTextBoxColumn.Width = 200
-        '
         'tabletAllSource
         '
         Me.tabletAllSource.DataSource = GetType(MemorialTabletBasic.TabletInfo.TabletRawItem)
@@ -466,32 +440,6 @@ Partial Class Form1
         Me.dgvWarn.RowTemplate.Height = 27
         Me.dgvWarn.Size = New System.Drawing.Size(826, 353)
         Me.dgvWarn.TabIndex = 1
-        '
-        'DataGridViewTextBoxColumn1
-        '
-        Me.DataGridViewTextBoxColumn1.DataPropertyName = "Type"
-        Me.DataGridViewTextBoxColumn1.HeaderText = "類型"
-        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
-        '
-        'DataGridViewTextBoxColumn2
-        '
-        Me.DataGridViewTextBoxColumn2.DataPropertyName = "Filename"
-        Me.DataGridViewTextBoxColumn2.HeaderText = "檔案"
-        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
-        '
-        'DataGridViewTextBoxColumn3
-        '
-        Me.DataGridViewTextBoxColumn3.DataPropertyName = "Val1"
-        Me.DataGridViewTextBoxColumn3.HeaderText = "欄位一"
-        Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
-        Me.DataGridViewTextBoxColumn3.Width = 150
-        '
-        'DataGridViewTextBoxColumn4
-        '
-        Me.DataGridViewTextBoxColumn4.DataPropertyName = "Val2"
-        Me.DataGridViewTextBoxColumn4.HeaderText = "欄位二"
-        Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
-        Me.DataGridViewTextBoxColumn4.Width = 200
         '
         'tabletWarnSource
         '
@@ -558,6 +506,60 @@ Partial Class Form1
         Me.btnReImport.Text = "重新匯入"
         Me.btnReImport.UseVisualStyleBackColor = True
         '
+        'DataGridViewTextBoxColumn1
+        '
+        Me.DataGridViewTextBoxColumn1.DataPropertyName = "Type"
+        Me.DataGridViewTextBoxColumn1.HeaderText = "類型"
+        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
+        Me.DataGridViewTextBoxColumn1.Width = 70
+        '
+        'DataGridViewTextBoxColumn2
+        '
+        Me.DataGridViewTextBoxColumn2.DataPropertyName = "Filename"
+        Me.DataGridViewTextBoxColumn2.HeaderText = "檔案"
+        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
+        '
+        'DataGridViewTextBoxColumn3
+        '
+        Me.DataGridViewTextBoxColumn3.DataPropertyName = "Val1"
+        Me.DataGridViewTextBoxColumn3.HeaderText = "欄位一"
+        Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
+        Me.DataGridViewTextBoxColumn3.Width = 230
+        '
+        'DataGridViewTextBoxColumn4
+        '
+        Me.DataGridViewTextBoxColumn4.DataPropertyName = "Val2"
+        Me.DataGridViewTextBoxColumn4.HeaderText = "欄位二"
+        Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
+        Me.DataGridViewTextBoxColumn4.Width = 230
+        '
+        'TypeDataGridViewTextBoxColumn
+        '
+        Me.TypeDataGridViewTextBoxColumn.DataPropertyName = "Type"
+        Me.TypeDataGridViewTextBoxColumn.HeaderText = "類型"
+        Me.TypeDataGridViewTextBoxColumn.Name = "TypeDataGridViewTextBoxColumn"
+        Me.TypeDataGridViewTextBoxColumn.Width = 70
+        '
+        'FilenameDataGridViewTextBoxColumn
+        '
+        Me.FilenameDataGridViewTextBoxColumn.DataPropertyName = "Filename"
+        Me.FilenameDataGridViewTextBoxColumn.HeaderText = "檔案"
+        Me.FilenameDataGridViewTextBoxColumn.Name = "FilenameDataGridViewTextBoxColumn"
+        '
+        'Val1DataGridViewTextBoxColumn
+        '
+        Me.Val1DataGridViewTextBoxColumn.DataPropertyName = "Val1"
+        Me.Val1DataGridViewTextBoxColumn.HeaderText = "欄位一"
+        Me.Val1DataGridViewTextBoxColumn.Name = "Val1DataGridViewTextBoxColumn"
+        Me.Val1DataGridViewTextBoxColumn.Width = 230
+        '
+        'Val2DataGridViewTextBoxColumn
+        '
+        Me.Val2DataGridViewTextBoxColumn.DataPropertyName = "Val2"
+        Me.Val2DataGridViewTextBoxColumn.HeaderText = "欄位二"
+        Me.Val2DataGridViewTextBoxColumn.Name = "Val2DataGridViewTextBoxColumn"
+        Me.Val2DataGridViewTextBoxColumn.Width = 230
+        '
         'Form1
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -623,14 +625,14 @@ Partial Class Form1
     Friend WithEvents dgvAll As DataGridView
     Friend WithEvents tabletAllSource As BindingSource
     Friend WithEvents tabletWarnSource As BindingSource
+    Friend WithEvents dgvWarn As DataGridView
+    Friend WithEvents btnReImport As Button
     Friend WithEvents TypeDataGridViewTextBoxColumn As DataGridViewTextBoxColumn
     Friend WithEvents FilenameDataGridViewTextBoxColumn As DataGridViewTextBoxColumn
     Friend WithEvents Val1DataGridViewTextBoxColumn As DataGridViewTextBoxColumn
     Friend WithEvents Val2DataGridViewTextBoxColumn As DataGridViewTextBoxColumn
-    Friend WithEvents dgvWarn As DataGridView
     Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
-    Friend WithEvents btnReImport As Button
 End Class
