@@ -23,10 +23,10 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Me.btnImport = New System.Windows.Forms.Button()
         Me.btnChoosePrinter = New System.Windows.Forms.Button()
         Me.btnPrintPreview = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.btnOpenFile = New System.Windows.Forms.Button()
         Me.openFileDiag = New System.Windows.Forms.OpenFileDialog()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lbMinimalBoundry = New System.Windows.Forms.Label()
@@ -71,36 +71,46 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.mainSplitter = New System.Windows.Forms.SplitContainer()
         Me.tabletWarnSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.mainSplitter = New System.Windows.Forms.SplitContainer()
+        Me.btnReImport = New System.Windows.Forms.Button()
         Me.dgvWarning.SuspendLayout()
         Me.tabAll.SuspendLayout()
         CType(Me.dgvAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.tabletAllSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabWarning.SuspendLayout()
         CType(Me.dgvWarn, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.tabletWarnSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.mainSplitter, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.mainSplitter.Panel1.SuspendLayout()
         Me.mainSplitter.Panel2.SuspendLayout()
         Me.mainSplitter.SuspendLayout()
-        CType(Me.tabletWarnSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
+        '
+        'btnImport
+        '
+        Me.btnImport.Location = New System.Drawing.Point(7, 13)
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Size = New System.Drawing.Size(78, 32)
+        Me.btnImport.TabIndex = 0
+        Me.btnImport.Text = "匯入資料"
+        Me.btnImport.UseVisualStyleBackColor = True
         '
         'btnChoosePrinter
         '
-        Me.btnChoosePrinter.Location = New System.Drawing.Point(135, 13)
+        Me.btnChoosePrinter.Location = New System.Drawing.Point(175, 13)
         Me.btnChoosePrinter.Name = "btnChoosePrinter"
-        Me.btnChoosePrinter.Size = New System.Drawing.Size(121, 32)
-        Me.btnChoosePrinter.TabIndex = 1
+        Me.btnChoosePrinter.Size = New System.Drawing.Size(96, 32)
+        Me.btnChoosePrinter.TabIndex = 2
         Me.btnChoosePrinter.Text = "選擇印表機"
         Me.btnChoosePrinter.UseVisualStyleBackColor = True
         '
         'btnPrintPreview
         '
-        Me.btnPrintPreview.Location = New System.Drawing.Point(262, 13)
+        Me.btnPrintPreview.Location = New System.Drawing.Point(277, 13)
         Me.btnPrintPreview.Name = "btnPrintPreview"
-        Me.btnPrintPreview.Size = New System.Drawing.Size(107, 32)
-        Me.btnPrintPreview.TabIndex = 2
+        Me.btnPrintPreview.Size = New System.Drawing.Size(83, 32)
+        Me.btnPrintPreview.TabIndex = 3
         Me.btnPrintPreview.Text = "印列預覽"
         Me.btnPrintPreview.UseVisualStyleBackColor = True
         '
@@ -111,15 +121,6 @@ Partial Class Form1
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(0, 15)
         Me.Label1.TabIndex = 3
-        '
-        'btnOpenFile
-        '
-        Me.btnOpenFile.Location = New System.Drawing.Point(7, 13)
-        Me.btnOpenFile.Name = "btnOpenFile"
-        Me.btnOpenFile.Size = New System.Drawing.Size(122, 32)
-        Me.btnOpenFile.TabIndex = 8
-        Me.btnOpenFile.Text = "讀取檔案"
-        Me.btnOpenFile.UseVisualStyleBackColor = True
         '
         'openFileDiag
         '
@@ -235,7 +236,7 @@ Partial Class Form1
         Me.txVerticalCount.Location = New System.Drawing.Point(653, 62)
         Me.txVerticalCount.Name = "txVerticalCount"
         Me.txVerticalCount.Size = New System.Drawing.Size(41, 25)
-        Me.txVerticalCount.TabIndex = 24
+        Me.txVerticalCount.TabIndex = 25
         '
         'Label9
         '
@@ -268,7 +269,7 @@ Partial Class Form1
         Me.btnProposeHorizontal.Location = New System.Drawing.Point(540, 62)
         Me.btnProposeHorizontal.Name = "btnProposeHorizontal"
         Me.btnProposeHorizontal.Size = New System.Drawing.Size(51, 25)
-        Me.btnProposeHorizontal.TabIndex = 25
+        Me.btnProposeHorizontal.TabIndex = 24
         Me.btnProposeHorizontal.Text = "自動"
         Me.btnProposeHorizontal.UseVisualStyleBackColor = True
         '
@@ -283,6 +284,7 @@ Partial Class Form1
         '
         'directoryStr
         '
+        Me.directoryStr.Enabled = False
         Me.directoryStr.Location = New System.Drawing.Point(50, 51)
         Me.directoryStr.Name = "directoryStr"
         Me.directoryStr.ReadOnly = True
@@ -330,7 +332,7 @@ Partial Class Form1
         Me.ckTypeC.Location = New System.Drawing.Point(6, 82)
         Me.ckTypeC.Name = "ckTypeC"
         Me.ckTypeC.Size = New System.Drawing.Size(98, 19)
-        Me.ckTypeC.TabIndex = 37
+        Me.ckTypeC.TabIndex = 4
         Me.ckTypeC.Text = "C長生祿位"
         Me.ckTypeC.UseVisualStyleBackColor = True
         '
@@ -340,7 +342,7 @@ Partial Class Form1
         Me.ckTypeD.Location = New System.Drawing.Point(108, 82)
         Me.ckTypeD.Name = "ckTypeD"
         Me.ckTypeD.Size = New System.Drawing.Size(84, 19)
-        Me.ckTypeD.TabIndex = 38
+        Me.ckTypeD.TabIndex = 5
         Me.ckTypeD.Text = "D地基主"
         Me.ckTypeD.UseVisualStyleBackColor = True
         '
@@ -350,7 +352,7 @@ Partial Class Form1
         Me.ckTypeL.Location = New System.Drawing.Point(209, 82)
         Me.ckTypeL.Name = "ckTypeL"
         Me.ckTypeL.Size = New System.Drawing.Size(98, 19)
-        Me.ckTypeL.TabIndex = 39
+        Me.ckTypeL.TabIndex = 6
         Me.ckTypeL.Text = "L歷代祖先"
         Me.ckTypeL.UseVisualStyleBackColor = True
         '
@@ -360,7 +362,7 @@ Partial Class Form1
         Me.ckTypeY.Location = New System.Drawing.Point(108, 107)
         Me.ckTypeY.Name = "ckTypeY"
         Me.ckTypeY.Size = New System.Drawing.Size(99, 19)
-        Me.ckTypeY.TabIndex = 41
+        Me.ckTypeY.TabIndex = 8
         Me.ckTypeY.Text = "Y冤親債主"
         Me.ckTypeY.UseVisualStyleBackColor = True
         '
@@ -370,7 +372,7 @@ Partial Class Form1
         Me.ckTypeW.Location = New System.Drawing.Point(6, 107)
         Me.ckTypeW.Name = "ckTypeW"
         Me.ckTypeW.Size = New System.Drawing.Size(102, 19)
-        Me.ckTypeW.TabIndex = 40
+        Me.ckTypeW.TabIndex = 7
         Me.ckTypeW.Text = "W往生蓮位"
         Me.ckTypeW.UseVisualStyleBackColor = True
         '
@@ -491,6 +493,10 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
         Me.DataGridViewTextBoxColumn4.Width = 200
         '
+        'tabletWarnSource
+        '
+        Me.tabletWarnSource.DataSource = GetType(MemorialTabletBasic.TabletInfo.TabletRawItem)
+        '
         'mainSplitter
         '
         Me.mainSplitter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
@@ -503,13 +509,14 @@ Partial Class Form1
         '
         'mainSplitter.Panel1
         '
+        Me.mainSplitter.Panel1.Controls.Add(Me.btnImport)
+        Me.mainSplitter.Panel1.Controls.Add(Me.btnReImport)
         Me.mainSplitter.Panel1.Controls.Add(Me.btnChoosePrinter)
         Me.mainSplitter.Panel1.Controls.Add(Me.ckTypeY)
         Me.mainSplitter.Panel1.Controls.Add(Me.btnPrintPreview)
         Me.mainSplitter.Panel1.Controls.Add(Me.ckTypeW)
         Me.mainSplitter.Panel1.Controls.Add(Me.Label1)
         Me.mainSplitter.Panel1.Controls.Add(Me.ckTypeL)
-        Me.mainSplitter.Panel1.Controls.Add(Me.btnOpenFile)
         Me.mainSplitter.Panel1.Controls.Add(Me.ckTypeD)
         Me.mainSplitter.Panel1.Controls.Add(Me.Label2)
         Me.mainSplitter.Panel1.Controls.Add(Me.ckTypeC)
@@ -542,9 +549,14 @@ Partial Class Form1
         Me.mainSplitter.SplitterDistance = 136
         Me.mainSplitter.TabIndex = 43
         '
-        'tabletWarnSource
+        'btnReImport
         '
-        Me.tabletWarnSource.DataSource = GetType(MemorialTabletBasic.TabletInfo.TabletRawItem)
+        Me.btnReImport.Location = New System.Drawing.Point(91, 13)
+        Me.btnReImport.Name = "btnReImport"
+        Me.btnReImport.Size = New System.Drawing.Size(78, 32)
+        Me.btnReImport.TabIndex = 1
+        Me.btnReImport.Text = "重新匯入"
+        Me.btnReImport.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -560,20 +572,20 @@ Partial Class Form1
         CType(Me.tabletAllSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabWarning.ResumeLayout(False)
         CType(Me.dgvWarn, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.tabletWarnSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.mainSplitter.Panel1.ResumeLayout(False)
         Me.mainSplitter.Panel1.PerformLayout()
         Me.mainSplitter.Panel2.ResumeLayout(False)
         CType(Me.mainSplitter, System.ComponentModel.ISupportInitialize).EndInit()
         Me.mainSplitter.ResumeLayout(False)
-        CType(Me.tabletWarnSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents btnChoosePrinter As Button
+    Friend WithEvents btnImport As Button
     Friend WithEvents btnPrintPreview As Button
+    Friend WithEvents btnChoosePrinter As Button
     Friend WithEvents Label1 As Label
-    Friend WithEvents btnOpenFile As Button
     Friend WithEvents openFileDiag As OpenFileDialog
     Friend WithEvents Label2 As Label
     Friend WithEvents lbMinimalBoundry As Label
@@ -620,4 +632,5 @@ Partial Class Form1
     Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
+    Friend WithEvents btnReImport As Button
 End Class

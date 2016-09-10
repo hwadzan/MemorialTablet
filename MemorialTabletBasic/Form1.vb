@@ -379,6 +379,18 @@ Public Class Form1
         End If
     End Sub
 
+    Public Shared Function removeFilenameExt(name As String) As String
+        Dim namear = name.Split(".")
+        If namear.Length = 1 Then
+            Return name
+        End If
+        Dim i As Integer
+        removeFilenameExt = namear(0)
+        For i = 1 To namear.Length - 2
+            removeFilenameExt = removeFilenameExt + "," + namear(i)
+        Next
+    End Function
+
     Private Sub inputFileInDirInType(dir As String, typeChar As Char)
         Dim rawInfo As TabletRawInfo = TabletInfo.getExpectRawInfo(typeChar)
         Dim di As New IO.DirectoryInfo(dir)
@@ -386,6 +398,7 @@ Public Class Form1
 
         For Each file In files
             Dim sr As New System.IO.StreamReader(file.FullName, System.Text.Encoding.Default)
+            Dim fileNameWOExt As String = removeFilenameExt(file.Name)
             Do While sr.Peek() >= 0
                 Dim line As String = sr.ReadLine().Trim
                 If line.Length = 0 Then Continue Do
@@ -393,7 +406,7 @@ Public Class Form1
 
                 Dim item As TabletRawItem = New TabletRawItem
                 item.Type = typeChar
-                item.Filename = file.Name
+                item.Filename = fileNameWOExt
                 item.Val1 = linear(0)
 
                 If linear.Count >= 2 Then item.Val2 = linear(1) Else item.Val2 = ""
@@ -407,8 +420,16 @@ Public Class Form1
         Next
     End Sub
 
-    Private Sub btnOpenFile_Click(sender As Object, e As EventArgs) Handles btnOpenFile.Click
-        If chooseFolderDiag.ShowDialog() <> DialogResult.OK Then Exit Sub
+    Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles _
+            btnImport.Click, btnReImport.Click
+        If sender.Equals(btnImport) Then
+            If chooseFolderDiag.ShowDialog() <> DialogResult.OK Then Exit Sub
+        Else
+            If chooseFolderDiag.SelectedPath.Length = 0 Then
+                MsgBox("要先選擇匯入資料 !")
+                Exit Sub
+            End If
+        End If
 
         tabletWarnSource.Clear()
         tabletAllSource.Clear()
@@ -422,7 +443,7 @@ Public Class Form1
         lbRawNum.Text = tabletAllSource.Count
     End Sub
 
-    Private Function valAfterUpdate(o As Integer, t As String, min As Integer, max As Integer) As Integer
+    Private Function valAfterUpdate(orig As Integer, t As String, min As Integer, max As Integer) As Integer
         Dim val As Integer
         Dim parseSucc As Boolean
         Try
@@ -431,7 +452,7 @@ Public Class Form1
         End Try
 
         If Not parseSucc Then
-            Return o
+            Return orig
         End If
         If val < min Then Return min
         If val > max Then Return max
@@ -468,6 +489,7 @@ Public Class Form1
                 txVerticalCount.Text,
                 1, 50)
         End If
+        updatePageConfig()
     End Sub
 
     Private Sub btnProposeHorizontal_Click(sender As Object, e As EventArgs) Handles btnProposeHorizontal.Click
