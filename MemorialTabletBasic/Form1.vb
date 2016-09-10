@@ -30,8 +30,6 @@ Public Class Form1
     Private miniMarginInfo As New PageInfo
     Private pageConfig As New PageConfigInfo
 
-    Private tabletData As New ArrayList
-    Private tabletDataWarn As New ArrayList
     Private currentPrintCount As Integer = 0
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -47,11 +45,11 @@ Public Class Form1
 
         If False Then
             Dim ti As TabletRawItem = New TabletRawItem
-            ti.type = "C"
-            ti.filename = "C001.txt"
-            ti.val1 = "台北市大安區忠孝東路二段263巷32弄9號二十二樓"
-            ti.val2 = "xxxx"
-            tabletData.Add(ti)
+            ti.Type = "C"
+            ti.Filename = "C001.txt"
+            ti.Val1 = "台北市大安區忠孝東路二段263巷32弄9號二十二樓"
+            ti.Val2 = "xxxx"
+            tabletAllSource.Add(ti)
             printDoc.DefaultPageSettings.Landscape = True
             printPreviewDiag.Document = printDoc
             printPreviewDiag.ShowDialog()
@@ -362,8 +360,8 @@ Public Class Form1
         Dim ti As New TabletItem
         For ix = 1 To pageConfig.horizontalCount
             For iy = 1 To pageConfig.verticalCount
-                If (currentPrintCount < tabletData.Count) Then
-                    Dim item As TabletRawItem = tabletData.Item(currentPrintCount)
+                If (currentPrintCount < tabletAllSource.Count) Then
+                    Dim item As TabletRawItem = tabletAllSource.Item(currentPrintCount)
                     Dim pt As PointF = LayoutUtil.rectOfIdx(ix, iy, pInfo)
                     'drawMemo1(e.Graphics, tPageX + (ix - 1) * tWidth, tPageY + (iy - 1) * tHeight, tWidth, tHeight,
                     '          "台北市大安區忠孝東路二段216巷24弄5號五樓", "    地基主", "三寶弟子三")
@@ -373,7 +371,7 @@ Public Class Form1
                 End If
             Next
         Next
-        If (currentPrintCount >= tabletData.Count) Then
+        If (currentPrintCount >= tabletAllSource.Count) Then
             e.HasMorePages = False
             currentPrintCount = 0
         Else
@@ -394,14 +392,16 @@ Public Class Form1
                 Dim linear() As String = Split(line, vbTab)
 
                 Dim item As TabletRawItem = New TabletRawItem
-                item.type = typeChar
-                item.filename = file.Name
-                item.val1 = linear(0)
-                If linear.Count >= 2 Then item.val2 = linear(1)
+                item.Type = typeChar
+                item.Filename = file.Name
+                item.Val1 = linear(0)
+
+                If linear.Count >= 2 Then item.Val2 = linear(1) Else item.Val2 = ""
                 If (linear.Count <> rawInfo.numOfRaw) Then
-                    tabletDataWarn.Add(item)
+                    tabletWarnSource.Add(item)
                 End If
-                tabletData.Add(item)
+                ' tabletWarnSource.Add(item)
+                tabletAllSource.Add(item)
             Loop
             sr.Close()
         Next
@@ -410,8 +410,8 @@ Public Class Form1
     Private Sub btnOpenFile_Click(sender As Object, e As EventArgs) Handles btnOpenFile.Click
         If chooseFolderDiag.ShowDialog() <> DialogResult.OK Then Exit Sub
 
-        tabletDataWarn.Clear()
-        tabletData.Clear()
+        tabletWarnSource.Clear()
+        tabletAllSource.Clear()
 
         If ckTypeC.Checked Then inputFileInDirInType(chooseFolderDiag.SelectedPath, "C")
         If ckTypeD.Checked Then inputFileInDirInType(chooseFolderDiag.SelectedPath, "D")
@@ -419,7 +419,7 @@ Public Class Form1
         If ckTypeW.Checked Then inputFileInDirInType(chooseFolderDiag.SelectedPath, "W")
         If ckTypeY.Checked Then inputFileInDirInType(chooseFolderDiag.SelectedPath, "Y")
 
-        lbRawNum.Text = tabletData.Count
+        lbRawNum.Text = tabletAllSource.Count
     End Sub
 
     Private Function valAfterUpdate(o As Integer, t As String, min As Integer, max As Integer) As Integer
@@ -492,5 +492,28 @@ Public Class Form1
                 CType(pageSettings.PaperSize.Height - pageConfig.marginTop - pageConfig.marginButtom, Single)),
             My.Resources.background.Size)
         txVerticalCount.Text = pageConfig.verticalCount.ToString
+    End Sub
+
+    Private Sub AllDelRow(ByVal sender As Object, ByVal e As DataGridViewRowCancelEventArgs) _
+            Handles dgvAll.UserDeletingRow
+        Dim raws = dgvAll.SelectedRows
+
+        For Each row In raws
+            Dim ti As TabletRawItem = TryCast(row.DataBoundItem, TabletRawItem)
+            tabletWarnSource.Remove(ti)
+        Next
+        lbRawNum.Text = tabletAllSource.Count.ToString
+    End Sub
+
+    Private Sub WarnDelRow(ByVal sender As Object, ByVal e As DataGridViewRowCancelEventArgs) _
+           Handles dgvWarn.UserDeletingRow
+        Dim raws = dgvWarn.SelectedRows
+
+        For Each row In raws
+            Dim ti As TabletRawItem = TryCast(row.DataBoundItem, TabletRawItem)
+            tabletAllSource.Remove(ti)
+        Next
+
+        lbRawNum.Text = tabletAllSource.Count.ToString
     End Sub
 End Class

@@ -1,10 +1,64 @@
 ﻿Public Class TabletInfo
-    Public Structure TabletRawItem
-        Public type As Char
-        Public filename As String
-        Public val1 As String
-        Public val2 As String
-    End Structure
+    Public Class TabletRawItem
+        Public Sub New()
+        End Sub
+
+        Public Sub New(type As Char, filename As String, val1 As String, val2 As String)
+            ' Public Sub New(idx As Integer, type As Char, filename As String, val1 As String, val2 As String)
+            ' _idx = idx
+            _type = type
+            _filename = filename
+            _val1 = val1
+            _val2 = val2
+        End Sub
+
+        ' Private _idx As Integer
+        Private _type As Char
+        Private _filename As String
+        Private _val1 As String
+        Private _val2 As String
+
+
+        Public Property Type As Char
+            Get
+                Return _type
+            End Get
+            Set(value As Char)
+                _type = value
+            End Set
+        End Property
+
+        Public Property Filename As String
+            Get
+                Return _filename
+            End Get
+            Set(value As String)
+                _filename = value
+            End Set
+        End Property
+
+        Public Property Val1 As String
+            Get
+                Return _val1
+            End Get
+            Set(value As String)
+                _val1 = value
+            End Set
+        End Property
+
+        Public Property Val2 As String
+            Get
+                Return _val2
+            End Get
+            Set(value As String)
+                _val2 = value
+            End Set
+        End Property
+
+        Public Overrides Function ToString() As String
+            Return _type
+        End Function
+    End Class
 
     Public Structure TabletItem
         Public rightStr As String
