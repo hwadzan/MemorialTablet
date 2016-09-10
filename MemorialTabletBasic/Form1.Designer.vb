@@ -48,14 +48,14 @@ Partial Class Form1
         Me.directoryStr = New System.Windows.Forms.TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.chooseFolderDiag = New System.Windows.Forms.FolderBrowserDialog()
-        Me.rioC = New System.Windows.Forms.RadioButton()
-        Me.rioD = New System.Windows.Forms.RadioButton()
-        Me.rioL = New System.Windows.Forms.RadioButton()
-        Me.rioW = New System.Windows.Forms.RadioButton()
-        Me.rioY = New System.Windows.Forms.RadioButton()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.lbRawNum = New System.Windows.Forms.Label()
+        Me.ckTypeC = New System.Windows.Forms.CheckBox()
+        Me.ckTypeD = New System.Windows.Forms.CheckBox()
+        Me.ckTypeL = New System.Windows.Forms.CheckBox()
+        Me.ckTypeY = New System.Windows.Forms.CheckBox()
+        Me.ckTypeW = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'btnChoosePrinter
@@ -270,62 +270,6 @@ Partial Class Form1
         Me.Label11.TabIndex = 28
         Me.Label11.Text = "目錄:"
         '
-        'rioC
-        '
-        Me.rioC.AutoSize = True
-        Me.rioC.Checked = True
-        Me.rioC.Location = New System.Drawing.Point(12, 81)
-        Me.rioC.Name = "rioC"
-        Me.rioC.Size = New System.Drawing.Size(119, 19)
-        Me.rioC.TabIndex = 29
-        Me.rioC.TabStop = True
-        Me.rioC.Text = "C RadioButton1"
-        Me.rioC.UseVisualStyleBackColor = True
-        '
-        'rioD
-        '
-        Me.rioD.AutoSize = True
-        Me.rioD.Location = New System.Drawing.Point(132, 81)
-        Me.rioD.Name = "rioD"
-        Me.rioD.Size = New System.Drawing.Size(120, 19)
-        Me.rioD.TabIndex = 30
-        Me.rioD.TabStop = True
-        Me.rioD.Text = "D RadioButton2"
-        Me.rioD.UseVisualStyleBackColor = True
-        '
-        'rioL
-        '
-        Me.rioL.AutoSize = True
-        Me.rioL.Location = New System.Drawing.Point(258, 81)
-        Me.rioL.Name = "rioL"
-        Me.rioL.Size = New System.Drawing.Size(119, 19)
-        Me.rioL.TabIndex = 31
-        Me.rioL.TabStop = True
-        Me.rioL.Text = "L RadioButton2"
-        Me.rioL.UseVisualStyleBackColor = True
-        '
-        'rioW
-        '
-        Me.rioW.AutoSize = True
-        Me.rioW.Location = New System.Drawing.Point(12, 106)
-        Me.rioW.Name = "rioW"
-        Me.rioW.Size = New System.Drawing.Size(123, 19)
-        Me.rioW.TabIndex = 32
-        Me.rioW.TabStop = True
-        Me.rioW.Text = "W RadioButton2"
-        Me.rioW.UseVisualStyleBackColor = True
-        '
-        'rioY
-        '
-        Me.rioY.AutoSize = True
-        Me.rioY.Location = New System.Drawing.Point(132, 106)
-        Me.rioY.Name = "rioY"
-        Me.rioY.Size = New System.Drawing.Size(120, 19)
-        Me.rioY.TabIndex = 33
-        Me.rioY.TabStop = True
-        Me.rioY.Text = "Y RadioButton2"
-        Me.rioY.UseVisualStyleBackColor = True
-        '
         'Label12
         '
         Me.Label12.AutoSize = True
@@ -352,18 +296,68 @@ Partial Class Form1
         Me.lbRawNum.TabIndex = 36
         Me.lbRawNum.Text = "lbRawNum"
         '
+        'ckTypeC
+        '
+        Me.ckTypeC.AutoSize = True
+        Me.ckTypeC.Location = New System.Drawing.Point(11, 81)
+        Me.ckTypeC.Name = "ckTypeC"
+        Me.ckTypeC.Size = New System.Drawing.Size(98, 19)
+        Me.ckTypeC.TabIndex = 37
+        Me.ckTypeC.Text = "C長生祿位"
+        Me.ckTypeC.UseVisualStyleBackColor = True
+        '
+        'ckTypeD
+        '
+        Me.ckTypeD.AutoSize = True
+        Me.ckTypeD.Location = New System.Drawing.Point(113, 81)
+        Me.ckTypeD.Name = "ckTypeD"
+        Me.ckTypeD.Size = New System.Drawing.Size(84, 19)
+        Me.ckTypeD.TabIndex = 38
+        Me.ckTypeD.Text = "D地基主"
+        Me.ckTypeD.UseVisualStyleBackColor = True
+        '
+        'ckTypeL
+        '
+        Me.ckTypeL.AutoSize = True
+        Me.ckTypeL.Location = New System.Drawing.Point(214, 81)
+        Me.ckTypeL.Name = "ckTypeL"
+        Me.ckTypeL.Size = New System.Drawing.Size(98, 19)
+        Me.ckTypeL.TabIndex = 39
+        Me.ckTypeL.Text = "L歷代祖先"
+        Me.ckTypeL.UseVisualStyleBackColor = True
+        '
+        'ckTypeY
+        '
+        Me.ckTypeY.AutoSize = True
+        Me.ckTypeY.Location = New System.Drawing.Point(113, 106)
+        Me.ckTypeY.Name = "ckTypeY"
+        Me.ckTypeY.Size = New System.Drawing.Size(99, 19)
+        Me.ckTypeY.TabIndex = 41
+        Me.ckTypeY.Text = "Y冤親債主"
+        Me.ckTypeY.UseVisualStyleBackColor = True
+        '
+        'ckTypeW
+        '
+        Me.ckTypeW.AutoSize = True
+        Me.ckTypeW.Location = New System.Drawing.Point(11, 106)
+        Me.ckTypeW.Name = "ckTypeW"
+        Me.ckTypeW.Size = New System.Drawing.Size(102, 19)
+        Me.ckTypeW.TabIndex = 40
+        Me.ckTypeW.Text = "W往生蓮位"
+        Me.ckTypeW.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(599, 278)
+        Me.Controls.Add(Me.ckTypeY)
+        Me.Controls.Add(Me.ckTypeW)
+        Me.Controls.Add(Me.ckTypeL)
+        Me.Controls.Add(Me.ckTypeD)
+        Me.Controls.Add(Me.ckTypeC)
         Me.Controls.Add(Me.lbRawNum)
         Me.Controls.Add(Me.Label13)
         Me.Controls.Add(Me.Label12)
-        Me.Controls.Add(Me.rioY)
-        Me.Controls.Add(Me.rioW)
-        Me.Controls.Add(Me.rioL)
-        Me.Controls.Add(Me.rioD)
-        Me.Controls.Add(Me.rioC)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.directoryStr)
         Me.Controls.Add(Me.btnProposeVertical)
@@ -420,12 +414,12 @@ Partial Class Form1
     Friend WithEvents directoryStr As TextBox
     Friend WithEvents Label11 As Label
     Friend WithEvents chooseFolderDiag As FolderBrowserDialog
-    Friend WithEvents rioC As RadioButton
-    Friend WithEvents rioD As RadioButton
-    Friend WithEvents rioL As RadioButton
-    Friend WithEvents rioW As RadioButton
-    Friend WithEvents rioY As RadioButton
     Friend WithEvents Label12 As Label
     Friend WithEvents Label13 As Label
     Friend WithEvents lbRawNum As Label
+    Friend WithEvents ckTypeC As CheckBox
+    Friend WithEvents ckTypeD As CheckBox
+    Friend WithEvents ckTypeL As CheckBox
+    Friend WithEvents ckTypeY As CheckBox
+    Friend WithEvents ckTypeW As CheckBox
 End Class

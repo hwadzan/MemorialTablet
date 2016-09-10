@@ -1,7 +1,6 @@
 ﻿Imports System.Drawing.Printing
 Imports MemorialTabletBasic.LayoutUtil
 Imports MemorialTabletBasic.TabletInfo
-' Imports System.Printing
 
 Public Class Form1
     Private printPreviewDiag As New PrintPreviewDialog()
@@ -36,20 +35,6 @@ Public Class Form1
     Private currentPrintCount As Integer = 0
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Dim server As LocalPrintServer = New LocalPrintServer();
-        'PrintQueueCollection queueCollection = server.GetPrintQueues();
-        'PrintQueue printQueue = null;
-
-        'foreach(PrintQueue pq In queueCollection)
-        '{
-        '    If (pq.FullName == PrinterName) Then
-        '        printQueue = pq;
-        '}
-
-        'Int numberOfJobs = 0;
-        'If (printQueue!= null) Then
-        '    numberOfJobs = printQueue.NumberOfJobs;
-
         pageConfig.marginTop = 50
         pageConfig.marginRight = 50
         pageConfig.marginLeft = 50
@@ -58,9 +43,12 @@ Public Class Form1
         pageConfig.horizontalCount = 1
 
         updateUI()
+        lbRawNum.Text = "0"
 
-        If True Then
+        If False Then
             Dim ti As TabletRawItem = New TabletRawItem
+            ti.type = "C"
+            ti.filename = "C001.txt"
             ti.val1 = "台北市大安區忠孝東路二段263巷32弄9號二十二樓"
             ti.val2 = "xxxx"
             tabletData.Add(ti)
@@ -68,7 +56,6 @@ Public Class Form1
             printPreviewDiag.Document = printDoc
             printPreviewDiag.ShowDialog()
         End If
-
     End Sub
 
     Public Function pageInfo2Str(pi As PageInfo) As String
@@ -237,8 +224,8 @@ Public Class Form1
     End Sub
 
     ' 地基主
-    Private Sub drawMemo1(g As Graphics, tX As Single, tY As Single, tWidth As Single, tHeight As Single,
-                          addr As String, name1 As String, name2 As String) ' addr 住址, name1 先人, name2 陽上
+    Private Sub drawMemo(g As Graphics, tX As Single, tY As Single, tWidth As Single, tHeight As Single,
+                         ti As TabletItem)
         Dim drawRect As Boolean = True
 
         Dim sWidth, sHeight As Single
@@ -255,11 +242,6 @@ Public Class Form1
                     New System.Drawing.RectangleF(tX, tY, tWidth, tHeight),
                     New System.Drawing.RectangleF(0, 0, sWidth, sHeight),
                     System.Drawing.GraphicsUnit.Pixel)
-
-        Dim c1 As String = "佛力超薦"
-        Dim c2 As String = "往生蓮位"
-
-        Dim l1 As String = "陽上"
 
         Dim fontC1 = New Font("新細明體", Int(19 * scaleAdj))
         Dim fontC2 = New Font("標楷體", Int(20 * scaleAdj)) ' for one and two rows.
@@ -283,16 +265,16 @@ Public Class Form1
         Dim rect As Rectangle
         ' 住址
         rect = New Rectangle(tX + 165 * scaleAdj, tY + 200 * scaleAdj, 23 * scaleAdj, 400 * scaleAdj)
-        g.DrawString(addr, fontR, Brushes.Black, rect, drawFormat)
+        g.DrawString(ti.rightStr, fontR, Brushes.Black, rect, drawFormat)
         drawRectIfTrue(drawRect, g, rect)
         ' 中間上方
         rect = New Rectangle(tX + 110 * scaleAdj, tY + 165 * scaleAdj, 30 * scaleAdj, 120 * scaleAdj)
-        g.DrawString(c1, fontC1, Brushes.Black, rect, drawFormat)
+        g.DrawString(ti.center1, fontC1, Brushes.Black, rect, drawFormat)
         drawRectIfTrue(drawRect, g, rect)
-        ' 中間 中方
 
+        ' 中間 中方
         Dim rectCenter = New Rectangle(tX + 110 * scaleAdj, tY + 290 * scaleAdj, 30 * scaleAdj, 230 * scaleAdj)
-        Dim wR As List(Of String) = wrapString(g, name1, fontC2, rectCenter, drawFormatCenter)
+        Dim wR As List(Of String) = wrapString(g, ti.center2, fontC2, rectCenter, drawFormatCenter)
         If (wR.Count = 1) Then
             drawRectIfTrue(drawRect, g, rectCenter)
             g.DrawString(wR.Item(0), fontC2, Brushes.Black, rectCenter, drawFormatCenter)
@@ -305,7 +287,7 @@ Public Class Form1
             g.DrawString(wR.Item(0), fontC2, Brushes.Black, rectRight, drawFormatCenter)
         Else
             rectCenter = New Rectangle(tX + 115 * scaleAdj, tY + 300 * scaleAdj, 20 * scaleAdj, 230 * scaleAdj)
-            wR = wrapString(g, name1, fontC2r34, rectCenter, drawFormatCenter)
+            wR = wrapString(g, ti.center2, fontC2r34, rectCenter, drawFormatCenter)
             If (wR.Count = 1) Then ' this won't happen in general ! just in case.
                 drawRectIfTrue(drawRect, g, rectCenter)
                 g.DrawString(wR.Item(0), fontC2r34, Brushes.Black, rectCenter, drawFormatCenter)
@@ -352,16 +334,17 @@ Public Class Form1
 
         ' 中間 下方
         rect = New Rectangle(tX + 110 * scaleAdj, tY + 525 * scaleAdj, 30 * scaleAdj, 120 * scaleAdj)
-        g.DrawString(c2, fontC1, Brushes.Black, rect, drawFormat)
+        g.DrawString(ti.center3, fontC1, Brushes.Black, rect, drawFormat)
         drawRectIfTrue(drawRect, g, rect)
         ' 左邊 上方
         rect = New Rectangle(tX + 20 * scaleAdj, tY + 300 * scaleAdj, 23 * scaleAdj, 50 * scaleAdj)
-        g.DrawString(l1, fontL1, Brushes.Black, rect, drawFormat)
+        g.DrawString(ti.left1, fontL1, Brushes.Black, rect, drawFormat)
         drawRectIfTrue(drawRect, g, rect)
         ' 左邊 下方
         rect = New Rectangle(tX + 20 * scaleAdj, tY + 350 * scaleAdj, 23 * scaleAdj, 260 * scaleAdj)
-        g.DrawString(name2, fontL2, Brushes.Black, rect, drawFormatFar)
+        g.DrawString(ti.left2, fontL2, Brushes.Black, rect, drawFormatFar)
         drawRectIfTrue(drawRect, g, rect)
+        ' 左邊 下方 小標 TODO
     End Sub
 
     Sub printDoc_PrintPage(ByVal sender As Object, ByVal e As PrintPageEventArgs) Handles printDoc.PrintPage
@@ -370,12 +353,13 @@ Public Class Form1
         Dim pInfo As PlacementInfo = LayoutUtil.computePlacementInfo(
             New PointF(pageConfig.marginLeft, pageConfig.marginTop),
             New SizeF(
-            CType(pageSettings.PaperSize.Width - pageConfig.marginLeft - pageConfig.marginRight, Single),
-            CType(pageSettings.PaperSize.Height - pageConfig.marginTop - pageConfig.marginButtom, Single)),
-            pageConfig.horizontalCount, pageConfig.verticalCount,
-            My.Resources.background.Size
+                CType(pageSettings.PaperSize.Width - pageConfig.marginLeft - pageConfig.marginRight, Single),
+                CType(pageSettings.PaperSize.Height - pageConfig.marginTop - pageConfig.marginButtom, Single)),
+                pageConfig.horizontalCount, pageConfig.verticalCount,
+                My.Resources.background.Size
             )
 
+        Dim ti As New TabletItem
         For ix = 1 To pageConfig.horizontalCount
             For iy = 1 To pageConfig.verticalCount
                 If (currentPrintCount < tabletData.Count) Then
@@ -383,8 +367,8 @@ Public Class Form1
                     Dim pt As PointF = LayoutUtil.rectOfIdx(ix, iy, pInfo)
                     'drawMemo1(e.Graphics, tPageX + (ix - 1) * tWidth, tPageY + (iy - 1) * tHeight, tWidth, tHeight,
                     '          "台北市大安區忠孝東路二段216巷24弄5號五樓", "    地基主", "三寶弟子三")
-                    drawMemo1(e.Graphics, pt.X, pt.Y, pInfo.tWidth, pInfo.tHeight,
-                    item.val1, "地基主在此this is a test地基主在此地基主在此地基主在此地基主在此地基主在此地基主在此地基主在此", item.val2)
+                    TabletInfo.raw2Tablet(item, ti) ' ti call by reference
+                    drawMemo(e.Graphics, pt.X, pt.Y, pInfo.tWidth, pInfo.tHeight, ti)
                     currentPrintCount += 1
                 End If
             Next
@@ -397,46 +381,45 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub inputFileInDirInType(dir As String, typeChar As Char)
+        Dim rawInfo As TabletRawInfo = TabletInfo.getExpectRawInfo(typeChar)
+        Dim di As New IO.DirectoryInfo(dir)
+        Dim files = di.GetFiles(typeChar + "*.txt")
+
+        For Each file In files
+            Dim sr As New System.IO.StreamReader(file.FullName, System.Text.Encoding.Default)
+            Do While sr.Peek() >= 0
+                Dim line As String = sr.ReadLine().Trim
+                If line.Length = 0 Then Continue Do
+                Dim linear() As String = Split(line, vbTab)
+
+                Dim item As TabletRawItem = New TabletRawItem
+                item.type = typeChar
+                item.filename = file.Name
+                item.val1 = linear(0)
+                If linear.Count >= 2 Then item.val2 = linear(1)
+                If (linear.Count <> rawInfo.numOfRaw) Then
+                    tabletDataWarn.Add(item)
+                End If
+                tabletData.Add(item)
+            Loop
+            sr.Close()
+        Next
+    End Sub
+
     Private Sub btnOpenFile_Click(sender As Object, e As EventArgs) Handles btnOpenFile.Click
-        Dim typeStr As String = "C"
-        If rioD.Checked Then
-            typeStr = "D"
-        ElseIf rioL.Checked Then
-            typeStr = "L"
-        ElseIf rioW.Checked Then
-            typeStr = "W"
-        ElseIf rioY.Checked Then
-            typeStr = "Y"
-        End If
-        Dim rawInfo As TabletRawInfo = TabletInfo.getExpectRawInfo(typeStr)
+        If chooseFolderDiag.ShowDialog() <> DialogResult.OK Then Exit Sub
 
-        If chooseFolderDiag.ShowDialog() = DialogResult.OK Then
-            directoryStr.Text = chooseFolderDiag.SelectedPath
-            Dim di As New IO.DirectoryInfo(chooseFolderDiag.SelectedPath)
-            Dim files = di.GetFiles(typeStr + "*.txt")
-            tabletDataWarn.Clear()
-            tabletData.Clear()
-            For Each file In files
-                Dim sr As New System.IO.StreamReader(file.FullName, System.Text.Encoding.Default)
-                Do While sr.Peek() >= 0
-                    Dim line As String = sr.ReadLine().Trim
-                    If line.Length = 0 Then Continue Do
-                    Dim linear() As String = Split(line, vbTab)
+        tabletDataWarn.Clear()
+        tabletData.Clear()
 
-                    Dim item As TabletRawItem = New TabletRawItem
-                    item.filename = file.Name
-                    item.val1 = linear(0)
-                    If linear.Count >= 2 Then item.val2 = linear(1)
-                    If (linear.Count <> rawInfo.numOfRaw) Then
-                        tabletDataWarn.Add(item)
-                    End If
-                    tabletData.Add(item)
-                Loop
-                ' MessageBox.Show(sr.ReadToEnd)
-                sr.Close()
-            Next
-            lbRawNum.Text = tabletData.Count
-        End If
+        If ckTypeC.Checked Then inputFileInDirInType(chooseFolderDiag.SelectedPath, "C")
+        If ckTypeD.Checked Then inputFileInDirInType(chooseFolderDiag.SelectedPath, "D")
+        If ckTypeL.Checked Then inputFileInDirInType(chooseFolderDiag.SelectedPath, "L")
+        If ckTypeW.Checked Then inputFileInDirInType(chooseFolderDiag.SelectedPath, "W")
+        If ckTypeY.Checked Then inputFileInDirInType(chooseFolderDiag.SelectedPath, "Y")
+
+        lbRawNum.Text = tabletData.Count
     End Sub
 
     Private Function valAfterUpdate(o As Integer, t As String, min As Integer, max As Integer) As Integer

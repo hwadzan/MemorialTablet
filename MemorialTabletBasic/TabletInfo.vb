@@ -1,5 +1,6 @@
 ﻿Public Class TabletInfo
     Public Structure TabletRawItem
+        Public type As Char
         Public filename As String
         Public val1 As String
         Public val2 As String
@@ -49,9 +50,50 @@
         End Select
     End Function
 
-    Public Shared Sub typeCRaw2Tablet(r As TabletRawItem, ByRef t As TabletItem)
-
+    Public Shared Sub raw2Tablet(r As TabletRawItem, ByRef t As TabletItem)
+        Select Case r.type
+            Case "C" ' C長生祿位
+                t.rightStr = ""
+                t.center1 = "佛力注照"
+                t.center2 = r.val1
+                t.center3 = "長生祿位"
+                t.left1 = ""
+                t.left2 = ""
+                t.left3 = r.filename
+            Case "D" ' D地基主
+                t.rightStr = r.val1
+                t.center1 = "佛力超薦"
+                t.center2 = "地基主"
+                t.center3 = "往生蓮位"
+                t.left1 = "陽上"
+                t.left2 = r.val2
+                t.left3 = r.filename
+            Case "L" ' L歷代祖先
+                t.rightStr = ""
+                t.center1 = "佛力超薦"
+                t.center2 = r.val1 + "氏歷代祖先"
+                t.center3 = "往生蓮位"
+                t.left1 = "陽上"
+                t.left2 = r.val2
+                t.left3 = r.filename
+            Case "W" ' 往生蓮位
+                t.rightStr = ""
+                t.center1 = "佛力超薦"
+                t.center2 = r.val1
+                t.center3 = "往生蓮位"
+                t.left1 = "陽上"
+                t.left2 = r.val2
+                t.left3 = r.filename
+            Case "Y" ' 冤親債主
+                t.rightStr = ""
+                t.center1 = "佛力超薦"
+                t.center2 = "累劫冤親債主"
+                t.center3 = "往生蓮位"
+                t.left1 = "陽上"
+                t.left2 = r.val1
+                t.left3 = r.filename
+            Case Else
+                MsgBox("程式內部錯誤")
+        End Select
     End Sub
-
-
 End Class
