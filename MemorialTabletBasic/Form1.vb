@@ -8,13 +8,15 @@ Public Class Form1
 
     Private WithEvents printDoc As New PrintDocument()
 
-    Public Structure PageInfo ' in unit 0.01 inch
+    Public Structure PaperInfo ' in unit 0.01 inch
         Dim marginLeft As Integer
         Dim marginTop As Integer
         Dim marginButtom As Integer
         Dim marginRight As Integer
         Dim pageWidth As Integer
         Dim pageHeight As Integer
+        Dim totalWidth As Integer
+        Dim totalHeight As Integer
     End Structure
 
     Public Structure PageConfigInfo ' margin in unit 0.01 inch
@@ -27,7 +29,9 @@ Public Class Form1
     End Structure
 
     Private currentPrinterSettings As New PrinterSettings
-    Private miniMarginInfo As New PageInfo
+    Private paperInfoPotrait As New PaperInfo
+    Private paperInfoEffective As New PaperInfo
+
     Private pageConfig As New PageConfigInfo
 
     Private currentPrintCount As Integer = 0
@@ -57,7 +61,7 @@ Public Class Form1
         End If
     End Sub
 
-    Public Function pageInfo2Str(pi As PageInfo) As String
+    Public Function pageInfo2Str(pi As PaperInfo) As String
         pageInfo2Str =
             "左:" + pi.marginLeft.ToString +
             ", 右:" + pi.marginRight.ToString +
@@ -70,15 +74,39 @@ Public Class Form1
     Private Sub updatePapeInfo()
         Dim pageSettings = currentPrinterSettings.DefaultPageSettings
 
-        miniMarginInfo.marginLeft = pageSettings.PrintableArea.Left
-        miniMarginInfo.marginRight = pageSettings.PaperSize.Width - pageSettings.PrintableArea.Right
-        miniMarginInfo.marginTop = pageSettings.PrintableArea.Top
-        miniMarginInfo.marginButtom = pageSettings.PaperSize.Height - pageSettings.PrintableArea.Bottom
+        paperInfoPotrait.marginLeft = pageSettings.PrintableArea.Left
+        paperInfoPotrait.marginRight = pageSettings.PaperSize.Width - pageSettings.PrintableArea.Right
+        paperInfoPotrait.marginTop = pageSettings.PrintableArea.Top
+        paperInfoPotrait.marginButtom = pageSettings.PaperSize.Height - pageSettings.PrintableArea.Bottom
 
-        miniMarginInfo.pageWidth = pageSettings.PrintableArea.Right - pageSettings.PrintableArea.Left
-        miniMarginInfo.pageHeight = pageSettings.PrintableArea.Bottom - pageSettings.PrintableArea.Top
+        paperInfoPotrait.pageWidth = pageSettings.PrintableArea.Right - pageSettings.PrintableArea.Left
+        paperInfoPotrait.pageHeight = pageSettings.PrintableArea.Bottom - pageSettings.PrintableArea.Top
 
-        lbMinimalBoundry.Text = pageInfo2Str(miniMarginInfo)
+        paperInfoPotrait.totalWidth = paperInfoPotrait.pageWidth + paperInfoPotrait.marginLeft + paperInfoPotrait.marginRight
+        paperInfoPotrait.totalHeight = paperInfoPotrait.pageHeight + paperInfoPotrait.marginTop + paperInfoPotrait.marginButtom
+
+        If Not pageSettings.Landscape Then
+            paperInfoEffective = paperInfoPotrait
+        Else
+            paperInfoEffective.pageHeight = paperInfoPotrait.pageWidth
+            paperInfoEffective.pageWidth = paperInfoPotrait.pageHeight
+            paperInfoEffective.totalHeight = paperInfoPotrait.totalWidth
+            paperInfoEffective.totalWidth = paperInfoPotrait.totalHeight
+
+            If True Then ' true for clock wise
+                paperInfoEffective.marginTop = paperInfoPotrait.marginLeft
+                paperInfoEffective.marginButtom = paperInfoPotrait.marginRight
+                paperInfoEffective.marginLeft = paperInfoPotrait.marginButtom
+                paperInfoEffective.marginRight = paperInfoPotrait.marginTop
+            Else ' for counter clock wise
+                paperInfoEffective.marginTop = paperInfoPotrait.marginRight
+                paperInfoEffective.marginButtom = paperInfoPotrait.marginLeft
+                paperInfoEffective.marginLeft = paperInfoPotrait.marginTop
+                paperInfoEffective.marginRight = paperInfoPotrait.marginButtom
+            End If
+        End If
+
+        lbMinimalBoundry.Text = pageInfo2Str(paperInfoEffective)
     End Sub
 
     Private Sub updatePageConfig()
@@ -354,15 +382,15 @@ Public Class Form1
     End Sub
 
     Sub printDoc_PrintPage(ByVal sender As Object, ByVal e As PrintPageEventArgs) Handles printDoc.PrintPage
-        Dim pageSettings = currentPrinterSettings.DefaultPageSettings
 
-        Dim pInfo As PlacementInfo = LayoutUtil.computePlacementInfo(
+        Dim pInfo As PlacementInfo
+        pInfo = LayoutUtil.computePlacementInfo(
             New PointF(pageConfig.marginLeft, pageConfig.marginTop),
             New SizeF(
-                CType(pageSettings.PaperSize.Width - pageConfig.marginLeft - pageConfig.marginRight, Single),
-                CType(pageSettings.PaperSize.Height - pageConfig.marginTop - pageConfig.marginButtom, Single)),
-                pageConfig.horizontalCount, pageConfig.verticalCount,
-                My.Resources.background.Size
+                CType(paperInfoEffective.totalWidth - pageConfig.marginLeft - pageConfig.marginRight, Single),
+                CType(paperInfoEffective.totalHeight - pageConfig.marginTop - pageConfig.marginButtom, Single)),
+            pageConfig.horizontalCount, pageConfig.verticalCount,
+            My.Resources.background.Size
             )
 
         Dim ti As New TabletItem
@@ -474,13 +502,13 @@ Public Class Form1
             txBoundTop.LostFocus,
             txBoundButtom.LostFocus
         If sender.Equals(txBoundLeft) Then
-            pageConfig.marginLeft = valAfterUpdate(pageConfig.marginLeft, txBoundLeft.Text, miniMarginInfo.marginLeft, 200)
+            pageConfig.marginLeft = valAfterUpdate(pageConfig.marginLeft, txBoundLeft.Text, paperInfoEffective.marginLeft, 200)
         ElseIf sender.Equals(txBoundRight) Then
-            pageConfig.marginRight = valAfterUpdate(pageConfig.marginRight, txBoundRight.Text, miniMarginInfo.marginRight, 200)
+            pageConfig.marginRight = valAfterUpdate(pageConfig.marginRight, txBoundRight.Text, paperInfoEffective.marginRight, 200)
         ElseIf sender.Equals(txBoundTop) Then
-            pageConfig.marginTop = valAfterUpdate(pageConfig.marginTop, txBoundTop.Text, miniMarginInfo.marginTop, 200)
+            pageConfig.marginTop = valAfterUpdate(pageConfig.marginTop, txBoundTop.Text, paperInfoEffective.marginTop, 200)
         ElseIf sender.Equals(txBoundButtom) Then
-            pageConfig.marginButtom = valAfterUpdate(pageConfig.marginButtom, txBoundButtom.Text, miniMarginInfo.marginButtom, 200)
+            pageConfig.marginButtom = valAfterUpdate(pageConfig.marginButtom, txBoundButtom.Text, paperInfoEffective.marginButtom, 200)
         End If
         updatePageConfig()
     End Sub
@@ -502,25 +530,23 @@ Public Class Form1
     End Sub
 
     Private Sub btnProposeHorizontal_Click(sender As Object, e As EventArgs) Handles btnProposeHorizontal.Click
-        Dim pageSettings = currentPrinterSettings.DefaultPageSettings
         pageConfig.horizontalCount = LayoutUtil.proposedHorizontalCount(
             pageConfig.verticalCount,
             New PointF(pageConfig.marginLeft, pageConfig.marginTop),
             New SizeF(
-                CType(pageSettings.PaperSize.Width - pageConfig.marginLeft - pageConfig.marginRight, Single),
-                CType(pageSettings.PaperSize.Height - pageConfig.marginTop - pageConfig.marginButtom, Single)),
+                CType(paperInfoEffective.totalWidth - pageConfig.marginLeft - pageConfig.marginRight, Single),
+                CType(paperInfoEffective.totalHeight - pageConfig.marginTop - pageConfig.marginButtom, Single)),
             My.Resources.background.Size)
         txHorizontalCount.Text = pageConfig.horizontalCount.ToString
     End Sub
 
     Private Sub btnProposeVertical_Click(sender As Object, e As EventArgs) Handles btnProposeVertical.Click
-        Dim pageSettings = currentPrinterSettings.DefaultPageSettings
         pageConfig.verticalCount = LayoutUtil.proposedVerticalCount(
             pageConfig.horizontalCount,
             New PointF(pageConfig.marginLeft, pageConfig.marginTop),
             New SizeF(
-                CType(pageSettings.PaperSize.Width - pageConfig.marginLeft - pageConfig.marginRight, Single),
-                CType(pageSettings.PaperSize.Height - pageConfig.marginTop - pageConfig.marginButtom, Single)),
+                CType(paperInfoEffective.totalWidth - pageConfig.marginLeft - pageConfig.marginRight, Single),
+                CType(paperInfoEffective.totalHeight - pageConfig.marginTop - pageConfig.marginButtom, Single)),
             My.Resources.background.Size)
         txVerticalCount.Text = pageConfig.verticalCount.ToString
     End Sub

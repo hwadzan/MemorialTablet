@@ -36,8 +36,6 @@ Public Class LayoutUtil
         If (proposedHorizontalCount = 0) Then proposedHorizontalCount = 1
     End Function
 
-
-
     Public Shared Function computePlacementInfo(p As PointF, drawArea As SizeF,
                                     horizontalCount As Integer, verticalCount As Integer,
                                     objSize As Size) As PlacementInfo

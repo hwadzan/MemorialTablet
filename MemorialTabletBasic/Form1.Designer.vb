@@ -72,8 +72,8 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.tabletWarnSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.mainSplitter = New System.Windows.Forms.SplitContainer()
-        Me.btnReImport = New System.Windows.Forms.Button()
         Me.directoryStr = New System.Windows.Forms.Label()
+        Me.btnReImport = New System.Windows.Forms.Button()
         Me.dgvWarning.SuspendLayout()
         Me.tabAll.SuspendLayout()
         CType(Me.dgvAll, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -89,7 +89,7 @@ Partial Class Form1
         '
         'btnImport
         '
-        Me.btnImport.Location = New System.Drawing.Point(7, 13)
+        Me.btnImport.Location = New System.Drawing.Point(3, 3)
         Me.btnImport.Name = "btnImport"
         Me.btnImport.Size = New System.Drawing.Size(78, 32)
         Me.btnImport.TabIndex = 0
@@ -98,7 +98,7 @@ Partial Class Form1
         '
         'btnChoosePrinter
         '
-        Me.btnChoosePrinter.Location = New System.Drawing.Point(175, 13)
+        Me.btnChoosePrinter.Location = New System.Drawing.Point(171, 4)
         Me.btnChoosePrinter.Name = "btnChoosePrinter"
         Me.btnChoosePrinter.Size = New System.Drawing.Size(96, 32)
         Me.btnChoosePrinter.TabIndex = 2
@@ -107,7 +107,7 @@ Partial Class Form1
         '
         'btnPrintPreview
         '
-        Me.btnPrintPreview.Location = New System.Drawing.Point(277, 13)
+        Me.btnPrintPreview.Location = New System.Drawing.Point(273, 4)
         Me.btnPrintPreview.Name = "btnPrintPreview"
         Me.btnPrintPreview.Size = New System.Drawing.Size(83, 32)
         Me.btnPrintPreview.TabIndex = 3
@@ -285,7 +285,7 @@ Partial Class Form1
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(4, 54)
+        Me.Label11.Location = New System.Drawing.Point(5, 44)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(41, 15)
         Me.Label11.TabIndex = 28
@@ -294,7 +294,7 @@ Partial Class Form1
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(216, 111)
+        Me.Label12.Location = New System.Drawing.Point(209, 98)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(56, 15)
         Me.Label12.TabIndex = 34
@@ -311,7 +311,7 @@ Partial Class Form1
         'lbRawNum
         '
         Me.lbRawNum.AutoSize = True
-        Me.lbRawNum.Location = New System.Drawing.Point(278, 111)
+        Me.lbRawNum.Location = New System.Drawing.Point(271, 98)
         Me.lbRawNum.Name = "lbRawNum"
         Me.lbRawNum.Size = New System.Drawing.Size(71, 15)
         Me.lbRawNum.TabIndex = 36
@@ -320,7 +320,7 @@ Partial Class Form1
         'ckTypeC
         '
         Me.ckTypeC.AutoSize = True
-        Me.ckTypeC.Location = New System.Drawing.Point(6, 82)
+        Me.ckTypeC.Location = New System.Drawing.Point(7, 72)
         Me.ckTypeC.Name = "ckTypeC"
         Me.ckTypeC.Size = New System.Drawing.Size(98, 19)
         Me.ckTypeC.TabIndex = 4
@@ -330,7 +330,7 @@ Partial Class Form1
         'ckTypeD
         '
         Me.ckTypeD.AutoSize = True
-        Me.ckTypeD.Location = New System.Drawing.Point(108, 82)
+        Me.ckTypeD.Location = New System.Drawing.Point(109, 72)
         Me.ckTypeD.Name = "ckTypeD"
         Me.ckTypeD.Size = New System.Drawing.Size(84, 19)
         Me.ckTypeD.TabIndex = 5
@@ -340,7 +340,7 @@ Partial Class Form1
         'ckTypeL
         '
         Me.ckTypeL.AutoSize = True
-        Me.ckTypeL.Location = New System.Drawing.Point(209, 82)
+        Me.ckTypeL.Location = New System.Drawing.Point(210, 72)
         Me.ckTypeL.Name = "ckTypeL"
         Me.ckTypeL.Size = New System.Drawing.Size(98, 19)
         Me.ckTypeL.TabIndex = 6
@@ -350,7 +350,7 @@ Partial Class Form1
         'ckTypeY
         '
         Me.ckTypeY.AutoSize = True
-        Me.ckTypeY.Location = New System.Drawing.Point(108, 107)
+        Me.ckTypeY.Location = New System.Drawing.Point(109, 97)
         Me.ckTypeY.Name = "ckTypeY"
         Me.ckTypeY.Size = New System.Drawing.Size(99, 19)
         Me.ckTypeY.TabIndex = 8
@@ -360,7 +360,7 @@ Partial Class Form1
         'ckTypeW
         '
         Me.ckTypeW.AutoSize = True
-        Me.ckTypeW.Location = New System.Drawing.Point(6, 107)
+        Me.ckTypeW.Location = New System.Drawing.Point(7, 97)
         Me.ckTypeW.Name = "ckTypeW"
         Me.ckTypeW.Size = New System.Drawing.Size(102, 19)
         Me.ckTypeW.TabIndex = 7
@@ -542,23 +542,23 @@ Partial Class Form1
         Me.mainSplitter.SplitterDistance = 136
         Me.mainSplitter.TabIndex = 43
         '
+        'directoryStr
+        '
+        Me.directoryStr.AutoSize = True
+        Me.directoryStr.Location = New System.Drawing.Point(52, 44)
+        Me.directoryStr.Name = "directoryStr"
+        Me.directoryStr.Size = New System.Drawing.Size(263, 15)
+        Me.directoryStr.TabIndex = 37
+        Me.directoryStr.Text = "directorStr:directorStr:directorStr:directorStr"
+        '
         'btnReImport
         '
-        Me.btnReImport.Location = New System.Drawing.Point(91, 13)
+        Me.btnReImport.Location = New System.Drawing.Point(87, 4)
         Me.btnReImport.Name = "btnReImport"
         Me.btnReImport.Size = New System.Drawing.Size(78, 32)
         Me.btnReImport.TabIndex = 1
         Me.btnReImport.Text = "重新匯入"
         Me.btnReImport.UseVisualStyleBackColor = True
-        '
-        'directoryStr
-        '
-        Me.directoryStr.AutoSize = True
-        Me.directoryStr.Location = New System.Drawing.Point(51, 54)
-        Me.directoryStr.Name = "directoryStr"
-        Me.directoryStr.Size = New System.Drawing.Size(263, 15)
-        Me.directoryStr.TabIndex = 37
-        Me.directoryStr.Text = "directorStr:directorStr:directorStr:directorStr"
         '
         'Form1
         '
