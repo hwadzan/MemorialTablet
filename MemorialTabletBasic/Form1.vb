@@ -415,6 +415,10 @@ Public Class Form1
         End If
     End Sub
 
+    Sub printDoc_EndPrint(ByVal sender As Object, ByVal e As PrintEventArgs) Handles printDoc.EndPrint
+        currentPrintCount = 0
+    End Sub
+
     Public Shared Function removeFilenameExt(name As String) As String
         Dim namear = name.Split(".")
         If namear.Length = 1 Then

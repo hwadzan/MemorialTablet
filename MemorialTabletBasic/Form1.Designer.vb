@@ -74,6 +74,7 @@ Partial Class Form1
         Me.mainSplitter = New System.Windows.Forms.SplitContainer()
         Me.directoryStr = New System.Windows.Forms.Label()
         Me.btnReImport = New System.Windows.Forms.Button()
+        Me.lbVer = New System.Windows.Forms.Label()
         Me.dgvWarning.SuspendLayout()
         Me.tabAll.SuspendLayout()
         CType(Me.dgvAll, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -502,6 +503,7 @@ Partial Class Form1
         '
         'mainSplitter.Panel1
         '
+        Me.mainSplitter.Panel1.Controls.Add(Me.lbVer)
         Me.mainSplitter.Panel1.Controls.Add(Me.directoryStr)
         Me.mainSplitter.Panel1.Controls.Add(Me.btnImport)
         Me.mainSplitter.Panel1.Controls.Add(Me.btnReImport)
@@ -559,6 +561,15 @@ Partial Class Form1
         Me.btnReImport.TabIndex = 1
         Me.btnReImport.Text = "重新匯入"
         Me.btnReImport.UseVisualStyleBackColor = True
+        '
+        'lbVer
+        '
+        Me.lbVer.AutoSize = True
+        Me.lbVer.Location = New System.Drawing.Point(797, 109)
+        Me.lbVer.Name = "lbVer"
+        Me.lbVer.Size = New System.Drawing.Size(32, 15)
+        Me.lbVer.TabIndex = 38
+        Me.lbVer.Text = "v0.4"
         '
         'Form1
         '
@@ -635,4 +646,5 @@ Partial Class Form1
     Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
     Friend WithEvents directoryStr As Label
+    Friend WithEvents lbVer As Label
 End Class
