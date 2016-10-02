@@ -74,6 +74,8 @@ Public Class Form1
     Private Sub updatePapeInfo()
         Dim pageSettings = currentPrinterSettings.DefaultPageSettings
 
+        pageSettings.PrinterResolution = pageSettings.PrinterSettings.PrinterResolutions(2)
+
         paperInfoPotrait.marginLeft = pageSettings.PrintableArea.Left
         paperInfoPotrait.marginRight = pageSettings.PaperSize.Width - pageSettings.PrintableArea.Right
         paperInfoPotrait.marginTop = pageSettings.PrintableArea.Top
@@ -250,54 +252,74 @@ Public Class Form1
         If b Then g.DrawRectangle(Pens.Black, rect)
     End Sub
 
-    ' 地基主
-    Private Sub drawMemo(g As Graphics, tX As Single, tY As Single, tWidth As Single, tHeight As Single,
-                         ti As TabletItem)
-        Dim drawRect As Boolean = False
+    Private fontC1 As Font = Nothing
+    Private fontC2 As Font = Nothing
+    Private fontC2r34 As Font = Nothing
+    Private fontL1 As Font = Nothing
+    Private fontL2 As Font = Nothing
+    Private fontR As Font = Nothing
+    Private fontR2 As Font = Nothing
 
+    Private drawFormatGen As New System.Drawing.StringFormat
+    Private drawFormatFar As New System.Drawing.StringFormat
+    Private drawFormatCenter As New System.Drawing.StringFormat
+
+    Private scaleAdj As Single
+
+    Private Sub initPrinting(tWidth As Single, tHeight As Single)
         Dim sWidth, sHeight As Single
-        Dim scale
+
+        Dim scale As Single
         Dim scaleD = 0.188147
-        Dim scaleAdj As Single
 
         sWidth = My.Resources.background.Size.Width
         sHeight = My.Resources.background.Size.Height
 
         scale = tWidth / sWidth
         scaleAdj = scale / scaleD
-        g.DrawImage(My.Resources.background,
-                    New System.Drawing.RectangleF(tX, tY, tWidth, tHeight),
-                    New System.Drawing.RectangleF(0, 0, sWidth, sHeight),
-                    System.Drawing.GraphicsUnit.Pixel)
 
-        Dim fontC1 = New Font("新細明體", Int(19 * scaleAdj))
-        Dim fontC2 = New Font("標楷體", Int(20 * scaleAdj)) ' for one and two rows.
-        Dim fontC2r34 = New Font("標楷體", Int(19 * scaleAdj * 2 / 3)) ' for 3 and 4 rows.
-        Dim fontL1 = New Font("標楷體", Int(15 * scaleAdj))
-        Dim fontL2 = New Font("新細明體", Int(15 * scaleAdj))
-        Dim fontR = New Font("標楷體", Int(13 * scaleAdj))
-        Dim fontR2 = New Font("標楷體", Int(6 * scaleAdj))
+        fontC1 = New Font("新細明體", Int(19 * scaleAdj))
+        fontC2 = New Font("標楷體", Int(20 * scaleAdj)) ' for one and two rows.
+        fontC2r34 = New Font("標楷體", Int(19 * scaleAdj * 2 / 3)) ' for 3 and 4 rows.
+        fontL1 = New Font("標楷體", Int(15 * scaleAdj))
+        fontL2 = New Font("新細明體", Int(15 * scaleAdj))
+        fontR = New Font("標楷體", Int(13 * scaleAdj))
+        fontR2 = New Font("標楷體", Int(6 * scaleAdj))
 
-        Dim drawFormat As New System.Drawing.StringFormat
-        drawFormat.FormatFlags = StringFormatFlags.DirectionVertical
+        drawFormatGen.FormatFlags = StringFormatFlags.DirectionVertical
 
-        Dim drawFormatFar As New System.Drawing.StringFormat
         drawFormatFar.FormatFlags = StringFormatFlags.DirectionVertical
         drawFormatFar.Alignment = StringAlignment.Far
 
-        Dim drawFormatCenter As New System.Drawing.StringFormat
         drawFormatCenter.FormatFlags = StringFormatFlags.DirectionVertical
         drawFormatCenter.Alignment = StringAlignment.Center
         drawFormatCenter.LineAlignment = StringAlignment.Center
+    End Sub
+
+    Private Sub drawMemo(g As Graphics, tX As Single, tY As Single, tWidth As Single, tHeight As Single,
+                         ti As TabletItem)
+        Dim drawRect As Boolean = False
+
+        If fontC1 Is Nothing Then ' first print first page
+            initPrinting(tWidth, tHeight)
+        End If
+
+        Dim sWidth = My.Resources.background.Size.Width
+        Dim sHeight = My.Resources.background.Size.Height
+
+        g.DrawImage(My.Resources.background,
+                        New System.Drawing.RectangleF(tX, tY, tWidth, tHeight),
+                        New System.Drawing.RectangleF(0, 0, sWidth, sHeight),
+                        System.Drawing.GraphicsUnit.Pixel)
 
         Dim rect As Rectangle
         ' 住址
         rect = New Rectangle(tX + 165 * scaleAdj, tY + 200 * scaleAdj, 23 * scaleAdj, 400 * scaleAdj)
-        g.DrawString(ti.rightStr, fontR, Brushes.Black, rect, drawFormat)
+        g.DrawString(ti.rightStr, fontR, Brushes.Black, rect, drawFormatGen)
         drawRectIfTrue(drawRect, g, rect)
         ' 中間上方
         rect = New Rectangle(tX + 110 * scaleAdj, tY + 165 * scaleAdj, 30 * scaleAdj, 120 * scaleAdj)
-        g.DrawString(ti.center1, fontC1, Brushes.Black, rect, drawFormat)
+        g.DrawString(ti.center1, fontC1, Brushes.Black, rect, drawFormatGen)
         drawRectIfTrue(drawRect, g, rect)
 
         ' 中間 中方
@@ -362,17 +384,17 @@ Public Class Form1
 
         ' 中間 下方
         rect = New Rectangle(tX + 110 * scaleAdj, tY + 525 * scaleAdj, 30 * scaleAdj, 120 * scaleAdj)
-        g.DrawString(ti.center3, fontC1, Brushes.Black, rect, drawFormat)
+        g.DrawString(ti.center3, fontC1, Brushes.Black, rect, drawFormatGen)
         drawRectIfTrue(drawRect, g, rect)
         ' 左邊 上方
         rect = New Rectangle(tX + 20 * scaleAdj, tY + 300 * scaleAdj, 23 * scaleAdj, 50 * scaleAdj)
-        g.DrawString(ti.left1, fontL1, Brushes.Black, rect, drawFormat)
+        g.DrawString(ti.left1, fontL1, Brushes.Black, rect, drawFormatGen)
         drawRectIfTrue(drawRect, g, rect)
         ' 左邊 下方
         rect = New Rectangle(tX + 20 * scaleAdj, tY + 350 * scaleAdj, 23 * scaleAdj, 260 * scaleAdj)
         g.DrawString(ti.left2, fontL2, Brushes.Black, rect, drawFormatFar)
         drawRectIfTrue(drawRect, g, rect)
-        ' 左邊 下方 小標 TODO
+        ' 左邊 下方 小標
         rect = New Rectangle(tX + 1 * scaleAdj, tY + 684 * scaleAdj, 9 * scaleAdj, 40 * scaleAdj)
         g.DrawString(ti.left3, fontR2, Brushes.Black, rect, drawFormatFar)
         drawRectIfTrue(drawRect, g, rect)
@@ -417,6 +439,7 @@ Public Class Form1
 
     Sub printDoc_EndPrint(ByVal sender As Object, ByVal e As PrintEventArgs) Handles printDoc.EndPrint
         currentPrintCount = 0
+        fontC1 = Nothing
     End Sub
 
     Public Shared Function removeFilenameExt(name As String) As String
