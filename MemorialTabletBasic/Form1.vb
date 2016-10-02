@@ -304,10 +304,11 @@ Public Class Form1
             initPrinting(tWidth, tHeight)
         End If
 
-        Dim sWidth = My.Resources.background.Size.Width
-        Dim sHeight = My.Resources.background.Size.Height
+        Dim img = My.Resources.background_3
+        Dim sWidth = img.Size.Width
+        Dim sHeight = img.Size.Height
 
-        g.DrawImage(My.Resources.background,
+        g.DrawImage(img,
                         New System.Drawing.RectangleF(tX, tY, tWidth, tHeight),
                         New System.Drawing.RectangleF(0, 0, sWidth, sHeight),
                         System.Drawing.GraphicsUnit.Pixel)

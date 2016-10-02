@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MemorialTabletBasic", "MemorialTabletBasic\MemorialTabletBasic.vbproj", "{6BC519A0-08FE-4F55-8F41-E331012EA9AA}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MemorialTabletBasicInstaller", "MemorialTabletBasicInstaller\MemorialTabletBasicInstaller.vdproj", "{E703FAD1-1DD0-4C56-AB4A-73EDD0B663E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6BC519A0-08FE-4F55-8F41-E331012EA9AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BC519A0-08FE-4F55-8F41-E331012EA9AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BC519A0-08FE-4F55-8F41-E331012EA9AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E703FAD1-1DD0-4C56-AB4A-73EDD0B663E0}.Debug|Any CPU.ActiveCfg = Debug
+		{E703FAD1-1DD0-4C56-AB4A-73EDD0B663E0}.Debug|Any CPU.Build.0 = Debug
+		{E703FAD1-1DD0-4C56-AB4A-73EDD0B663E0}.Release|Any CPU.ActiveCfg = Release
+		{E703FAD1-1DD0-4C56-AB4A-73EDD0B663E0}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
