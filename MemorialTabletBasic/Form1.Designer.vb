@@ -72,9 +72,14 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.tabletWarnSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.mainSplitter = New System.Windows.Forms.SplitContainer()
+        Me.txCustomHeight = New System.Windows.Forms.TextBox()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.txCustomWidth = New System.Windows.Forms.TextBox()
+        Me.ckCustomPaperSize = New System.Windows.Forms.CheckBox()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.lbVer = New System.Windows.Forms.Label()
         Me.directoryStr = New System.Windows.Forms.Label()
         Me.btnReImport = New System.Windows.Forms.Button()
-        Me.lbVer = New System.Windows.Forms.Label()
         Me.dgvWarning.SuspendLayout()
         Me.tabAll.SuspendLayout()
         CType(Me.dgvAll, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -503,6 +508,11 @@ Partial Class Form1
         '
         'mainSplitter.Panel1
         '
+        Me.mainSplitter.Panel1.Controls.Add(Me.txCustomHeight)
+        Me.mainSplitter.Panel1.Controls.Add(Me.Label16)
+        Me.mainSplitter.Panel1.Controls.Add(Me.txCustomWidth)
+        Me.mainSplitter.Panel1.Controls.Add(Me.ckCustomPaperSize)
+        Me.mainSplitter.Panel1.Controls.Add(Me.Label14)
         Me.mainSplitter.Panel1.Controls.Add(Me.lbVer)
         Me.mainSplitter.Panel1.Controls.Add(Me.directoryStr)
         Me.mainSplitter.Panel1.Controls.Add(Me.btnImport)
@@ -544,6 +554,57 @@ Partial Class Form1
         Me.mainSplitter.SplitterDistance = 136
         Me.mainSplitter.TabIndex = 43
         '
+        'txCustomHeight
+        '
+        Me.txCustomHeight.Location = New System.Drawing.Point(646, 96)
+        Me.txCustomHeight.Name = "txCustomHeight"
+        Me.txCustomHeight.Size = New System.Drawing.Size(49, 25)
+        Me.txCustomHeight.TabIndex = 44
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(611, 99)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(26, 15)
+        Me.Label16.TabIndex = 43
+        Me.Label16.Text = "高:"
+        '
+        'txCustomWidth
+        '
+        Me.txCustomWidth.Location = New System.Drawing.Point(547, 96)
+        Me.txCustomWidth.Name = "txCustomWidth"
+        Me.txCustomWidth.Size = New System.Drawing.Size(49, 25)
+        Me.txCustomWidth.TabIndex = 41
+        '
+        'ckCustomPaperSize
+        '
+        Me.ckCustomPaperSize.AutoSize = True
+        Me.ckCustomPaperSize.Location = New System.Drawing.Point(387, 98)
+        Me.ckCustomPaperSize.Name = "ckCustomPaperSize"
+        Me.ckCustomPaperSize.Size = New System.Drawing.Size(119, 19)
+        Me.ckCustomPaperSize.TabIndex = 40
+        Me.ckCustomPaperSize.Text = "自訂紙張大小"
+        Me.ckCustomPaperSize.UseVisualStyleBackColor = True
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(512, 99)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(26, 15)
+        Me.Label14.TabIndex = 39
+        Me.Label14.Text = "寬:"
+        '
+        'lbVer
+        '
+        Me.lbVer.AutoSize = True
+        Me.lbVer.Location = New System.Drawing.Point(797, 99)
+        Me.lbVer.Name = "lbVer"
+        Me.lbVer.Size = New System.Drawing.Size(32, 15)
+        Me.lbVer.TabIndex = 38
+        Me.lbVer.Text = "v0.5"
+        '
         'directoryStr
         '
         Me.directoryStr.AutoSize = True
@@ -561,15 +622,6 @@ Partial Class Form1
         Me.btnReImport.TabIndex = 1
         Me.btnReImport.Text = "重新匯入"
         Me.btnReImport.UseVisualStyleBackColor = True
-        '
-        'lbVer
-        '
-        Me.lbVer.AutoSize = True
-        Me.lbVer.Location = New System.Drawing.Point(797, 109)
-        Me.lbVer.Name = "lbVer"
-        Me.lbVer.Size = New System.Drawing.Size(32, 15)
-        Me.lbVer.TabIndex = 38
-        Me.lbVer.Text = "v0.4"
         '
         'Form1
         '
@@ -647,4 +699,9 @@ Partial Class Form1
     Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
     Friend WithEvents directoryStr As Label
     Friend WithEvents lbVer As Label
+    Friend WithEvents txCustomHeight As TextBox
+    Friend WithEvents Label16 As Label
+    Friend WithEvents txCustomWidth As TextBox
+    Friend WithEvents ckCustomPaperSize As CheckBox
+    Friend WithEvents Label14 As Label
 End Class

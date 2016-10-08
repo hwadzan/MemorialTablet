@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic
+﻿Imports System.Drawing.Printing
+Imports Microsoft.VisualBasic
 
 Public Class LayoutUtil
     Public Structure PlacementInfo
@@ -93,5 +94,20 @@ Public Class LayoutUtil
         rectOfIdx = New PointF(
             pi.xPos + (ix - 1) * pi.xOffset,
             pi.yPos + (iy - 1) * pi.yOffset)
+    End Function
+
+    ' not used.
+    Public Shared Function getMaxPaperSize(ps As PrinterSettings) As SizeF
+        Dim maxSize As New SizeF
+        maxSize.Width = 0
+        maxSize.Height = 0
+        For i = 0 To ps.PaperSizes.Count - 1
+            Dim pkSize = ps.PaperSizes.Item(i)
+            If pkSize.Width > maxSize.Width Or pkSize.Height > maxSize.Height Then
+                maxSize.Width = pkSize.Width
+                maxSize.Height = pkSize.Height
+            End If
+        Next
+        Return maxSize
     End Function
 End Class

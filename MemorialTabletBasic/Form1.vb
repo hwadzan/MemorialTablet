@@ -29,6 +29,8 @@ Public Class Form1
     End Structure
 
     Private currentPrinterSettings As New PrinterSettings
+    Private currentPaperSizeIfNotCustomer As New PaperSize
+    Private customPaperSize As New Size
     Private paperInfoPotrait As New PaperInfo
     Private paperInfoEffective As New PaperInfo
 
@@ -44,7 +46,14 @@ Public Class Form1
         pageConfig.verticalCount = 1
         pageConfig.horizontalCount = 1
 
+        currentPaperSizeIfNotCustomer = currentPrinterSettings.DefaultPageSettings.PaperSize
+
+        customPaperSize.Width = currentPaperSizeIfNotCustomer.Width
+        customPaperSize.Height = currentPaperSizeIfNotCustomer.Height
+        ckCustomPaperSize.Checked = False
+
         updateUI()
+
         lbRawNum.Text = "0"
         directoryStr.Text = ""
 
@@ -71,8 +80,24 @@ Public Class Form1
             ", 高:" + pi.pageHeight.ToString
     End Function
 
-    Private Sub updatePapeInfo()
+    Private Sub updatePaperInfo()
         Dim pageSettings = currentPrinterSettings.DefaultPageSettings
+
+        If (ckCustomPaperSize.Checked And customPaperSize.Width > 200 And customPaperSize.Height > 200) Then
+            currentPrinterSettings.DefaultPageSettings.PaperSize =
+                    New PaperSize("Custom Paper Size", customPaperSize.Width, customPaperSize.Height)
+            If 0 Then
+                If Not pageSettings.Landscape Then ' portrait
+                    currentPrinterSettings.DefaultPageSettings.PaperSize =
+                    New PaperSize("Custom Paper Size", customPaperSize.Width, customPaperSize.Height)
+                Else ' landscape
+                    currentPrinterSettings.DefaultPageSettings.PaperSize =
+                    New PaperSize("Custom Paper Size", customPaperSize.Height, customPaperSize.Width)
+                End If
+            End If
+        Else
+            currentPrinterSettings.DefaultPageSettings.PaperSize = currentPaperSizeIfNotCustomer
+        End If
 
         pageSettings.PrinterResolution = pageSettings.PrinterSettings.PrinterResolutions(2)
 
@@ -122,8 +147,9 @@ Public Class Form1
     End Sub
 
     Private Sub updateUI()
-        updatePapeInfo()
+        updatePaperInfo()
         updatePageConfig()
+        updateCustomSize()
     End Sub
 
     Private Sub btnChoosePrinter_Click(sender As Object, e As EventArgs) Handles btnChoosePrinter.Click
@@ -132,6 +158,11 @@ Public Class Form1
         ret = printDiag.ShowDialog()
         If ret = DialogResult.OK Then
             currentPrinterSettings = printDiag.PrinterSettings
+            currentPaperSizeIfNotCustomer = currentPrinterSettings.DefaultPageSettings.PaperSize
+            If (Not ckCustomPaperSize.Checked) Then
+                customPaperSize.Width = currentPaperSizeIfNotCustomer.Width
+                customPaperSize.Height = currentPaperSizeIfNotCustomer.Height
+            End If
             updateUI()
         End If
     End Sub
@@ -519,8 +550,8 @@ Public Class Form1
         If Not parseSucc Then
             Return orig
         End If
-        If val < min Then Return min
-        If val > max Then Return max
+        If (min > 0) And val < min Then Return min
+        If (max > 0) And val > max Then Return max
         Return val
     End Function
 
@@ -555,6 +586,28 @@ Public Class Form1
                 1, 50)
         End If
         updatePageConfig()
+    End Sub
+
+    Private Sub updateCustomSize()
+        txCustomHeight.Text = customPaperSize.Height.ToString
+        txCustomWidth.Text = customPaperSize.Width.ToString
+
+        txCustomHeight.Enabled = ckCustomPaperSize.Checked
+        txCustomWidth.Enabled = ckCustomPaperSize.Checked
+    End Sub
+
+    Private Sub txCustomSize_LostFocus(sender As Object, e As EventArgs) Handles _
+            txCustomHeight.LostFocus, txCustomWidth.LostFocus
+        If sender.Equals(txCustomHeight) Then
+            customPaperSize.Height = valAfterUpdate(
+                customPaperSize.Height,
+                txCustomHeight.Text, 200, -1)
+        ElseIf sender.Equals(txCustomWidth) Then
+            customPaperSize.Width = valAfterUpdate(
+                customPaperSize.Width,
+                txCustomWidth.Text, 200, -1)
+        End If
+        updateUI()
     End Sub
 
     Private Sub btnProposeHorizontal_Click(sender As Object, e As EventArgs) Handles btnProposeHorizontal.Click
@@ -600,5 +653,9 @@ Public Class Form1
         Next
 
         lbRawNum.Text = tabletAllSource.Count.ToString
+    End Sub
+
+    Private Sub ckCustomPaperSize_CheckedChanged(sender As Object, e As EventArgs) Handles ckCustomPaperSize.CheckedChanged
+        updateUI()
     End Sub
 End Class
