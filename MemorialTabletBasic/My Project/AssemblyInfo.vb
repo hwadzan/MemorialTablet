@@ -10,9 +10,9 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("MemorialTabletBasic")>
 <Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("2Share")>
+<Assembly: AssemblyCompany("2Share.net (Y.C Cheng)")>
 <Assembly: AssemblyProduct("MemorialTabletBasic")>
-<Assembly: AssemblyCopyright("Copyright ©  2016")>
+<Assembly: AssemblyCopyright("Copyright ©  2017")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' 指定為預設值: 
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.0.0.4")>
-<Assembly: AssemblyFileVersion("1.0.0.4")>
+<Assembly: AssemblyVersion("1.0.0.5")>
+<Assembly: AssemblyFileVersion("1.0.0.5")>

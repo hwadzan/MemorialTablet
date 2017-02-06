@@ -603,7 +603,7 @@ Partial Class Form1
         Me.lbVer.Name = "lbVer"
         Me.lbVer.Size = New System.Drawing.Size(32, 15)
         Me.lbVer.TabIndex = 38
-        Me.lbVer.Text = "v0.5"
+        Me.lbVer.Text = "v0.6"
         '
         'directoryStr
         '
